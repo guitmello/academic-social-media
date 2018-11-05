@@ -1,3 +1,4 @@
-<p>
-  user-add-edit works!
-</p>
+<button mat-fab color="primary" (click)='imgFileInput.click()'>
+  <mat-icon aria-label="Tirar Foto">add_a_photo</mat-icon>
+  <input hidden type="file" accept="image/*" id="imgupload" capture="camera" #imgFileInput />
+</button>
