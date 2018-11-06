@@ -1,0 +1,20 @@
+{
+  "name": "social-media-api",
+  "version": "1.0.0",
+  "description": "API Social Media",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "4.13.9",
+    "restify": "6.3.4"
+  },
+  "devDependencies": {
+    "@types/mongoose": "4.7.32",
+    "@types/restify": "5.0.6"
+  }
+}
