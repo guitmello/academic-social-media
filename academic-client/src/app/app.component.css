@@ -1,0 +1,20 @@
+/* variables */
+:root {
+  /* main interface colors */
+  --ligth-primary-color: #D1C4E9;
+  --primary-color: #673AB7;
+  --dark-primary-color: #512DA8;
+  --accent-color: #FFC107;
+  --other-color: #FFFFFF;
+
+  /* text/icons colors */
+  --dark-text-icons-color: #212121;
+  --light-text-icons-color: #FFFFFF;
+  --middle-text-icons-color: #757575;
+
+  /* divider/ border color */
+  --divider-color: #BDBDBD;
+
+  /* color used in components shadow*/  
+  --shadow-color: #79787825;
+}

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './security/login/login.component';
+import { PostModule } from './post/post.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LoginComponent } from './security/login/login.component';
     LoginComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    PostModule
   ],
   providers: [],
   bootstrap: [AppComponent]

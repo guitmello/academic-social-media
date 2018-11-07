@@ -7,8 +7,12 @@ import { PostDetailsComponent } from './post-details/post-details.component';
 @NgModule({
   imports: [
     CommonModule,
-    PostRoutingModule
   ],
-  declarations: [PostDetailsComponent]
+  declarations: [
+    PostDetailsComponent
+  ],
+  exports: [
+    PostDetailsComponent
+  ]
 })
 export class PostModule { }
