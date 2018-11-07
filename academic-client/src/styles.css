@@ -15,3 +15,23 @@ html, body {
     height: 100%;
     font-family: 'Roboto', sans-serif;
 }
+
+.container {
+    padding: 0 15%;
+}
+
+.row-center {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 5px 0px;
+}
+
+mat-form-field {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.mat-raised-button {
+    border-radius: 20px !important;
+}
