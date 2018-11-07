@@ -1,3 +1,19 @@
-<p>
-  post-details works!
-</p>
+<article class='post-details shadow'>
+  <header class='post-details__header'>
+    <img [src]='post.user.photo' [alt]='post.user.name' class='post-details__header__photo'>
+    <div class='post-details__header__user'>
+      <span class='post-details__header__name'>
+        {{ post.user.name }}
+      </span>
+      <span class='post-details__header__date'>
+        {{ post.content.date | date:'dd/MMMM/yyyy'}}
+      </span>
+    </div>
+  </header>
+  <div class='post-details__body'>
+    <img *ngIf='post.content.img' [src]='post.content.img' alt='Image title' class='post-details__body__img'/>
+    <span class='post-details__body__text'>
+      {{ post.content.text }}
+    </span>
+  </div>
+</article>
