@@ -28,6 +28,10 @@ html, body {
     padding: 5px 0px;
 }
 
+mat-card {
+    border-radius: 20px;
+}
+
 mat-form-field {
     width: 100%;
     max-width: 100%;
