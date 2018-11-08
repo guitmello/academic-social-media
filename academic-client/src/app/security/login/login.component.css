@@ -1,0 +1,14 @@
+.box-teste {
+    background: purple;
+    height: 400px;
+    width: 100%
+}
+
+mat-card{
+    padding: 0 !important;
+    width: 100%;
+}
+
+.card__padding {
+    padding: 24px;
+}

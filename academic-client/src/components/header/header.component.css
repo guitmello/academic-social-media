@@ -1,0 +1,37 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 2em;
+}
+.header__logo {
+  width: 99px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+.header__search {
+  height: 100%;
+  background: transparent;
+  border-bottom: solid .25px #FFFFFF;
+  display: flex;
+  align-items: center;
+}
+.header__search > input {
+  background: transparent;
+  border: none;
+  min-width: 95%;
+}
+.header__search > input::placeholder {
+  color: #FFFFFF;
+}
+.header__search > button {
+  background: transparent;
+  border: none;
+}
+
+@media screen and (min-width: 768px) {
+  .header__logo {
+    width: 199px;
+  }
+}

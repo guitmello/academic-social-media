@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { User } from '../../user/user.model';
 import { Router } from '@angular/router';
 
@@ -10,7 +9,6 @@ export class LoginService {
   lastUrl: string;
 
   constructor(
-    private http: HttpClient,
     private router: Router
   ) { }
 

@@ -1,22 +1,51 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AppRoutingModule } from './app-routing.module';
+import { PostModule } from '../components/post/post.module';
+
+import { HeaderComponent } from '../components/header/header.component';
+import { TimelineProjectComponent } from '../views/timeline-project/timeline-project.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { LoginComponent } from './security/login/login.component';
+
+import { LoginService } from './security/login/login.service';
+
+import {
+  MatCardModule,
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatFormFieldModule
+} from '@angular/material';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
-    LoginComponent
+    HeaderComponent,
+    TimelineProjectComponent,
+    HomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PostModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule
   ],
-  providers: [],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
