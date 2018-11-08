@@ -1,11 +1,9 @@
 .post-details {
-  /* height: 250px; */
   width: 300px;
-  background-color: var(--other-color);
+  background: #FFFFFF;
   border-radius: 10px;
   display: flex;
   flex-flow: row wrap;
-  box-shadow: 4px 4px 10px #79787825;
   padding: .25em 1.75em;
 }
 
@@ -38,15 +36,15 @@
 
 .post-details__header__name {
   font-size: .75em;
-  color: var(--dark-text-icons-color);
+  /* color: var(--dark-text-icons-color); */
 }
 
 .post-details__header__date {
   font-size: .625em;
-  color: var(--middle-text-icons-color);
+  /* color: var(--middle-text-icons-color); */
 }
 
 .post-details__body {
-  color: var(--middle-text-icons-color);
   font-size: .75em;
+  /* color: var(--middle-text-icons-color); */
 }
