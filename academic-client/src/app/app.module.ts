@@ -3,12 +3,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PostModule } from '../components/post/post.module';
 
-import { LoginComponent } from './security/login/login.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { TimelineProjectComponent } from '../views/timeline-project/timeline-project.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -22,19 +21,21 @@ import {
   MatInputModule,
   MatFormFieldModule
 } from '@angular/material';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
-    LoginComponent,
     HeaderComponent,
-    TimelineProjectComponent
+    TimelineProjectComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     PostModule,
     BrowserAnimationsModule,
     AppRoutingModule,
