@@ -1,3 +1,32 @@
-<p>
-  login works!
-</p>
+<div class="container">
+  <div class="pure-g">
+    <mat-card>
+      <div class="pure-u-1 pure-u-md-3-5">
+        <div class="box-teste"></div>
+      </div>
+      <div class="pure-u-1 pure-u-md-2-5">
+        <div class="card__padding">
+          <form [formGroup]="loginForm">
+            <div class="pure-u-1">
+              <mat-form-field>
+                <input matInput formControlName="email" type="text" placeholder="Email" required>
+              </mat-form-field>
+            </div>
+            <div class="pure-u-1">
+              <mat-form-field>
+                <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" placeholder="Senha" required>
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="pure-u-1">
+              <div class="row-center">
+                <button [disabled]="loginForm.invalid" mat-raised-button type="submit" color="primary" class="w-50">Confirmar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

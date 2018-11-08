@@ -12,8 +12,33 @@
 .shadow { box-shadow: 4px 4px 10px #79787825; }
 
 html, body {
+<<<<<<< HEAD
   height: 100%;
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+=======
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    padding: 0 15%;
+}
+
+.row-center {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 5px 0px;
+}
+
+mat-form-field {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.mat-raised-button {
+    border-radius: 20px !important;
+>>>>>>> c09f3d7d0fe9ce647d68418e18c83cd0792cdd85
 }
