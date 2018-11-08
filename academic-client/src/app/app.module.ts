@@ -19,9 +19,12 @@ import {
   MatButtonModule,
   MatIconModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatProgressBarModule
+
 } from '@angular/material';
 import { HomeComponent } from './home/home.component';
+import { ProfileDashComponent } from '../components/profile-dash/profile-dash.component';
 
 
 @NgModule({
@@ -30,7 +33,9 @@ import { HomeComponent } from './home/home.component';
     NotFoundComponent,
     HeaderComponent,
     TimelineProjectComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileDashComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -43,7 +48,9 @@ import { HomeComponent } from './home/home.component';
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressBarModule
+
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]
