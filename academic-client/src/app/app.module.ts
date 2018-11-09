@@ -24,9 +24,11 @@ import {
   MatFormFieldModule,
   MatNativeDateModule,
   MatSelectModule,
-  MatOptionModule
+  MatOptionModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { HomeComponent } from './home/home.component';
+import { ProfileDashComponent } from '../components/profile-dash/profile-dash.component';
 
 
 
@@ -36,7 +38,9 @@ import { HomeComponent } from './home/home.component';
     NotFoundComponent,
     HeaderComponent,
     TimelineProjectComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileDashComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,8 @@ import { HomeComponent } from './home/home.component';
     MatIconModule,
     MatInputModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+	MatProgressBarModule
   ],
   providers: [LoginService, UserService],
   bootstrap: [AppComponent]

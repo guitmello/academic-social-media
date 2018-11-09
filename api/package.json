@@ -1,20 +1,17 @@
 {
-  "name": "social-media-api",
+  "name": "api-social-media",
   "version": "1.0.0",
-  "description": "API Social Media",
-  "main": "main.js",
+  "description": "API para o projeto de rede social final da Avanade em conjunto a Gama Academy",
+  "main": "server.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "mongoose": "4.13.9",
-    "restify": "6.3.4"
-  },
-  "devDependencies": {
-    "@types/mongoose": "4.7.32",
-    "@types/restify": "5.0.6"
+    "bcrypt": "^3.0.2",
+    "boom": "^4.2.0",
+    "hapi": "^16.1.0",
+    "mongojs": "^2.4.0",
+    "mongoose": "^5.3.10"
   }
 }
