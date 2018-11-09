@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,15 +14,20 @@ import { TimelineProjectComponent } from '../views/timeline-project/timeline-pro
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { LoginService } from './security/login/login.service';
+import { UserService } from './user/user.service';
 
 import {
   MatCardModule,
   MatButtonModule,
   MatIconModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatNativeDateModule,
+  MatSelectModule,
+  MatOptionModule
 } from '@angular/material';
 import { HomeComponent } from './home/home.component';
+
 
 
 @NgModule({
@@ -36,6 +42,7 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     PostModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -43,9 +50,11 @@ import { HomeComponent } from './home/home.component';
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
