@@ -34,7 +34,7 @@ module.exports = [
                 }
                 response(posts);
             })
-                .sort({ createdDate: 'desc' })
+                .sort({ createdAt: 'desc' })
                 .skip(offset)
                 .limit(limit)
         },
@@ -110,7 +110,7 @@ module.exports = [
     ,
     {
         method: 'GET',
-        path: '/projects/posts/{id}',
+        path: '/posts/projects/{id}',
         handler: (request, response) => {
 
             Posts.find({ projectId: request.params.id },
@@ -121,7 +121,7 @@ module.exports = [
                     
                     response(posts);
                 })
-                .sort({ createdDate: 'desc' })
+                .sort({ createdAt: 'desc' })
         }
     }
 ]

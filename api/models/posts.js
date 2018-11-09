@@ -14,7 +14,7 @@ const PostSchema = new Schema({
         type: String,
         required: true
     },
-    createdDate: {
+    createdAt: {
         type: Date,
         default: new Date()
     },
@@ -34,7 +34,7 @@ const PostSchema = new Schema({
                 type: String,
                 required: true
             },
-            createdDate: {
+            createdAt: {
                 type: Date,
                 default: new Date()
             }

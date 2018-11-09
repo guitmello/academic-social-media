@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var ProjetosSchema = new Schema({
+var ProjectsSchema = new Schema({
     name : { type : String, 
              trim : true , 
              required : true
     },
-    createdDate : { type : Date, 
+    createdAt : { type : Date, 
                     default : new Date()
     },
-    userid : {
+    userId : {
         type : Schema.Types.ObjectId,
         ref : 'Usuarios',
         required : true
@@ -20,4 +20,4 @@ var ProjetosSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Projetos', ProjetosSchema);
+module.exports = mongoose.model('Projects', ProjectsSchema);

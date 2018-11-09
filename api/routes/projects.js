@@ -1,28 +1,28 @@
 const Boom = require('boom')
-const Projetos = require('../models/Projetos')
+const Projects = require('../models/Projects')
 const { promisify } = require('util')
 
 module.exports = [
     {
         method : 'GET',
-        path  : '/projetos',
+        path  : '/projects',
         handler : (request, response) => {
-            Projetos.find((err, docs) => {
+            Projects.find((err, docs) => {
                 if (err)
                     return response(Boom.wrap(err, 400, 'Erro ao buscar projetos'))
     
                 response(docs)
             })
-            .sort({dtcriacao : 'asc'})
+            .sort({createdAt : 'asc'})
             .limit(1)
         }
     }
 ,    
     {
         method : 'GET',
-        path  : '/projetos/{id}',
+        path  : '/projects/{id}',
         handler : (request, response) => {
-            Projetos.findOne({_id : request.params.id},
+            Projects.findOne({_id : request.params.id},
                 (err, doc) => {
                     if (err) 
                         return response(Boom.wrap(err, 400, 'Erro ao buscar projeto'))
@@ -38,15 +38,13 @@ module.exports = [
  ,   
     {
         method : 'POST',
-        path : '/projetos',
+        path : '/projects',
         handler : async (request, response) => {
-            const projeto = request.payload;
-            if (!projeto.dtcriacao) 
-                projeto.dtcriacao = new Date();
+            const project = request.payload;
+            if (!project.createdAt) 
+            project.createdAt = new Date();
     
-            // const resultProjeto = await promisify(Projetos.save(projeto));
-            // response(resultProjeto);
-            Projetos.create(projeto, (err, doc) => {
+            Projects.create(project, (err, doc) => {
                 if (err)
                     return response(Boom.wrap(err, 400, 'Erro ao salvar projeto'));
                 
@@ -57,9 +55,9 @@ module.exports = [
 ,
     {
         method : 'PATCH',
-        path : '/projetos/{id}',
+        path : '/projects/{id}',
         handler : (request, response) => {
-            Projetos.update({_id : request.params.id},
+            Projects.update({_id : request.params.id},
                 {$set : request.payload},
                 (err, result) => {
                     if (err)
@@ -75,10 +73,10 @@ module.exports = [
 ,
     {  
         method: 'DELETE',
-        path: '/projetos/{id}',
+        path: '/projects/{id}',
         handler: (request, response) => {
     
-            Projetos.remove({
+            Projects.remove({
                 _id: request.params.id
             }, (err, result) => {
     
