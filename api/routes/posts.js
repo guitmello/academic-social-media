@@ -73,11 +73,11 @@ module.exports = [
             Posts.updateOne({ _id: request.params.id },
                 { $set: request.payload },
                 (err, result) => {
-                    if (err){
+                    if (err) {
                         return response(Boom.wrap(err, 400, 'Erro ao salvar a postagem'))
                     }
 
-                    if (result.n === 0){
+                    if (result.n === 0) {
                         return response(Boom.notFound())
                     }
 
@@ -118,10 +118,33 @@ module.exports = [
                     if (err) {
                         return response(Boom.wrap(err, 500, 'Erro ao buscar as postagens do projeto'));
                     }
-                    
+
                     response(posts);
                 })
                 .sort({ createdAt: 'desc' })
+        }
+    }
+    ,
+    {
+
+        method: 'GET',
+        path: '/posts/users/{userId}',
+        handler: (request, response) => {
+            const { offset, limit } = request.query
+
+            Posts.find({ userId: request.params.userId },
+                (err, doc) => {
+                    if (err)
+                        return response(Boom.wrap(err, 400, 'Erro ao buscar as postagens do usuário'))
+
+                    if (!doc)
+                        return response(Boom.notFound())
+
+                    response(doc)
+                })
+                .sort({ createdAt: 'desc' })
+                .skip(offset)
+                .limit(limit)
         }
     }
 ]

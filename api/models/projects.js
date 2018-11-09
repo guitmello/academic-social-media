@@ -11,7 +11,7 @@ var ProjectsSchema = new Schema({
     },
     userId : {
         type : Schema.Types.ObjectId,
-        ref : 'Usuarios',
+        ref : 'Users',
         required : true
     },
     loading : { type : Number, 
