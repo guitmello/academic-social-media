@@ -1,6 +1,7 @@
 const Mongoose = require('mongoose');
+const environment = require('../common/environment')
 
-Mongoose.connect('mongodb://localhost:27017/hapijsmongo',  { useNewUrlParser: true });
+Mongoose.connect(environment.db.url, { useNewUrlParser: true });
 const db = Mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Erro de conexão'));
