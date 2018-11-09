@@ -1,0 +1,8 @@
+.box-ranking{
+    padding: 20px;
+    box-shadow: 0 0 10px 0 #ccc;
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 320px;
+}

@@ -29,8 +29,8 @@ import {
 } from '@angular/material';
 import { HomeComponent } from './home/home.component';
 import { ProfileDashComponent } from '../components/profile-dash/profile-dash.component';
-
-
+import { NewPostComponent } from '../components/post/new-post/new-post.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,8 @@ import { ProfileDashComponent } from '../components/profile-dash/profile-dash.co
     TimelineProjectComponent,
     HomeComponent,
     ProfileDashComponent,
+    NewPostComponent,
+    RankingComponent,
 
   ],
   imports: [
@@ -57,7 +59,7 @@ import { ProfileDashComponent } from '../components/profile-dash/profile-dash.co
     MatInputModule,
     MatNativeDateModule,
     MatSelectModule,
-	MatProgressBarModule
+    MatProgressBarModule
   ],
   providers: [LoginService, UserService],
   bootstrap: [AppComponent]

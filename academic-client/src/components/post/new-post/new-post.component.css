@@ -1,0 +1,7 @@
+.box-new-post{
+    padding: 20px;
+    box-shadow: 0 0 10px 0 #ccc;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 600px;
+}
