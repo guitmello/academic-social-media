@@ -45,3 +45,6 @@ mat-form-field {
 .form-control {
     padding: 0 5px;
 }
+.mat-progress-bar-buffer{
+    background-color: #CFCFCF !important;
+}

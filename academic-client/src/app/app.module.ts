@@ -15,6 +15,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 import { LoginService } from './security/login/login.service';
 import { UserService } from './user/user.service';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import {
   MatCardModule,
@@ -31,6 +32,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileDashComponent } from '../components/profile-dash/profile-dash.component';
 import { NewPostComponent } from '../components/post/new-post/new-post.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { ProfHeaderComponent } from './profile/prof-header/prof-header.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { RankingComponent } from './ranking/ranking.component';
     ProfileDashComponent,
     NewPostComponent,
     RankingComponent,
+    ProfHeaderComponent,
 
   ],
   imports: [
@@ -59,7 +62,8 @@ import { RankingComponent } from './ranking/ranking.component';
     MatInputModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTabsModule
   ],
   providers: [LoginService, UserService],
   bootstrap: [AppComponent]

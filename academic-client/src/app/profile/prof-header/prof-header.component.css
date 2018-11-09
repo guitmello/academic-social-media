@@ -1,0 +1,38 @@
+.card-profile{
+    width: 820px;
+    height: auto;
+    box-shadow: 0 0 10px 0 #ccc;
+    margin: 10px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+.cropedPhoto{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: 30px;
+}
+.cropedPhoto img{
+    width: 140%;
+}
+.backgroundPicture{
+    background: linear-gradient(#512DA8);
+    padding: 30px 0px 0 0;
+    max-height: 60px;
+}
+.mainInfos{
+    padding: 30px 20px;
+    border-bottom: 1px solid #ccc;
+}
+.top-40{
+    margin-top: 40px;
+}
+.title-profHeader{
+    text-align: center;
+    color: #512DA8;
+}
+.project-description{
+    color: #757575;
+}
