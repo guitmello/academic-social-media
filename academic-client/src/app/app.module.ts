@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +14,7 @@ import { TimelineProjectComponent } from '../views/timeline-project/timeline-pro
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { LoginService } from './security/login/login.service';
+import { UserService } from './user/user.service';
 
 import {
   MatCardModule,
@@ -20,11 +22,14 @@ import {
   MatIconModule,
   MatInputModule,
   MatFormFieldModule,
+  MatNativeDateModule,
+  MatSelectModule,
+  MatOptionModule,
   MatProgressBarModule
-
 } from '@angular/material';
 import { HomeComponent } from './home/home.component';
 import { ProfileDashComponent } from '../components/profile-dash/profile-dash.component';
+
 
 
 @NgModule({
@@ -41,6 +46,7 @@ import { ProfileDashComponent } from '../components/profile-dash/profile-dash.co
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     PostModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -49,10 +55,11 @@ import { ProfileDashComponent } from '../components/profile-dash/profile-dash.co
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatProgressBarModule
-
+    MatNativeDateModule,
+    MatSelectModule,
+	MatProgressBarModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -29,7 +29,7 @@ html, body {
 }
 
 mat-card {
-    border-radius: 20px;
+    border-radius: 15px !important;
 }
 
 mat-form-field {
@@ -40,4 +40,8 @@ mat-form-field {
 
 .mat-raised-button {
     border-radius: 20px !important;
+}
+
+.form-control {
+    padding: 0 5px;
 }
