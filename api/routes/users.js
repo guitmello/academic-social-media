@@ -40,14 +40,14 @@ module.exports = [
         method: 'POST',
         path: '/users',
         handler: async (request, response) => {
-            const usuario = request.payload;
-            if (!usuario.dtcriacao)
-                usuario.dtcriacao = new Date();
+            const user = request.payload;
+            if (!user.dtcriacao)
+            user.dtcriacao = new Date();
 
-            if (usuario.password)
-                usuario.password = await bcryptAsPromise(usuario.password, 10);
+            if (user.password)
+            user.password = await bcryptAsPromise(user.password, 10);
 
-            Users.create(usuario, (err, doc) => {
+            Users.create(user, (err, doc) => {
                 if (err)
                     return response(Boom.wrap(err, 400, 'Erro ao criar usuário'))
 
@@ -59,13 +59,13 @@ module.exports = [
         method: 'PATCH',
         path: '/users/{id}',
         handler: async (request, response) => {
-            const usuario = request.payload;
+            const user = request.payload;
 
-            if (usuario.password)
-                usuario.password = await bcryptAsPromise(usuario.password, 10);
+            if (user.password)
+            user.password = await bcryptAsPromise(user.password, 10);
 
             Users.updateOne({ _id: request.params.id },
-                { $set: usuario },
+                { $set: user },
                 (err, result) => {
                     if (err)
                         return response(Boom.wrap(err, 'Erro ao atualizar usuário'))
