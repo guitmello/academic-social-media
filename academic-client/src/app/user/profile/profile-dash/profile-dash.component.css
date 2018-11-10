@@ -1,0 +1,27 @@
+.card-profile{
+    height: auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.cropedPhoto{
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.cropedPhoto img{
+    width: 140%;
+}
+.backgroundPicture{
+    background: linear-gradient(#512DA8);
+    padding: 30px 0px 0 0;
+    max-height: 60px;
+}
+.otherInfos{
+    padding: 30px 20px;
+}
+.top-40{
+    margin-top: 40px;
+}

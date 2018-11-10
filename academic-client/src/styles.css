@@ -13,13 +13,22 @@
 
 html, body {
   height: 100%;
+  max-width: 100%;
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  background: #f8f8f8;
 }
 
 .container {
     padding: 0 15%;
+}
+.content {
+    padding: 40px 0;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .row-center {
@@ -29,7 +38,9 @@ html, body {
 }
 
 mat-card {
-    border-radius: 15px !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.08) !important;
 }
 
 mat-form-field {
@@ -44,4 +55,15 @@ mat-form-field {
 
 .form-control {
     padding: 0 5px;
+}
+.mat-progress-bar-buffer{
+    background-color: #CFCFCF !important;
+}
+
+.no-p {
+    padding: 0 !important;
+}
+
+.ml-20 {
+    margin: 0 20px;
 }

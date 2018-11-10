@@ -124,4 +124,27 @@ module.exports = [
                 .sort({ createdAt: 'desc' })
         }
     }
+    ,
+    {
+
+        method: 'GET',
+        path: '/posts/users/{userId}',
+        handler: (request, response) => {
+            const { offset, limit } = request.query
+
+            Posts.find({ userId: request.params.userId },
+                (err, doc) => {
+                    if (err)
+                        return response(Boom.wrap(err, 400, 'Erro ao buscar as postagens do usuário'))
+
+                    if (!doc)
+                        return response(Boom.notFound())
+
+                    response(doc)
+                })
+                .sort({ createdAt: 'desc' })
+                .skip(offset)
+                .limit(limit)
+        }
+    }
 ]
