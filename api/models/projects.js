@@ -2,21 +2,33 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var ProjectsSchema = new Schema({
-    name : { type : String, 
-             trim : true , 
-             required : true
+    name: {
+        type: String,
+        trim: true,
+        required: true
     },
-    createdAt : { type : Date, 
-                    default : new Date()
+    description: {
+        type: String,
+        trim: true,
+        required: true
     },
-    userId : {
-        type : Schema.Types.ObjectId,
-        ref : 'Users',
-        required : true
+    createdAt: {
+        type: Date,
+        default: new Date()
     },
-    loading : { type : Number, 
-                min : [0, 'O progresso mínimo é 0%'], 
-                max : [100, 'O progresso mínimo é 100%']
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true
+    },
+    loading: {
+        type: Number,
+        min: [0, 'O progresso mínimo é 0%'],
+        max: [100, 'O progresso mínimo é 100%']
+    },
+    likes: {
+        type: Number,
+        min: [0, 'O mínimo de curtidas é 0']
     }
 });
 
