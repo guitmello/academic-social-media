@@ -6,17 +6,17 @@ module.exports = [
     {
         method: 'POST',
         path: '/posts',
-        handler: (request, response) => {
+        handler: (request, h) => {
 
             const post = request.payload
 
             Posts.create(post, (error, docs) => {
 
                 if (error) {
-                    return response(Boom.wrap(error, 400, 'Erro ao salvar a postagem'));
+                    return Boom.wrap(error, 400, 'Erro ao salvar a postagem');
                 }
 
-                return response(docs);
+                return docs;
 
             })
         }
@@ -73,11 +73,11 @@ module.exports = [
             Posts.updateOne({ _id: request.params.id },
                 { $set: request.payload },
                 (err, result) => {
-                    if (err){
+                    if (err) {
                         return response(Boom.wrap(err, 400, 'Erro ao salvar a postagem'))
                     }
 
-                    if (result.n === 0){
+                    if (result.n === 0) {
                         return response(Boom.notFound())
                     }
 
@@ -118,7 +118,7 @@ module.exports = [
                     if (err) {
                         return response(Boom.wrap(err, 500, 'Erro ao buscar as postagens do projeto'));
                     }
-                    
+
                     response(posts);
                 })
                 .sort({ createdAt: 'desc' })

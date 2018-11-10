@@ -1,8 +1,8 @@
 const Boom = require('boom')
-const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 const { promisify } = require('util')
 const Users = require('../models/users')
+const validCreateUser = require('../util/userFunctions').validCreateUser
 
 const bcryptAsPromise = promisify(bcrypt.hash)
 
@@ -10,49 +10,46 @@ module.exports = [
     {
         method: 'GET',
         path: '/users',
-        handler: (request, response) => {
-            Users.find((err, docs) => {
-                if (err)
-                    return response(Boom.wrap(err, 400, 'Erro ao buscar usuários'))
-
-                response(docs)
-            }).limit(20)
+        handler: async (request, h) => {
+            try {
+                return Users.find().limit(20)
+            } catch (error) {
+                return Boom.internal()
+            }
         }
     },
     {
         method: 'GET',
         path: '/users/{id}',
-        handler: (request, response) => {
-            Users.findOne({ _id: request.params.id },
-                (err, doc) => {
-                    if (err)
-                        return response(Boom.wrap(err, 400, 'Erro ao buscar usuário'))
-
-                    if (!doc)
-                        return response(Boom.notFound())
-
-                    response(doc)
-
-                })
+        handler: async (request, h) => {
+            try {
+                return Users.findOne({ _id: request.params.id })
+            } catch (error) {
+                return Boom.internal()
+            }
         }
     },
     {
         method: 'POST',
         path: '/users',
         handler: async (request, response) => {
-            const user = request.payload;
-            if (!user.dtcriacao)
-            user.dtcriacao = new Date();
+            try {
+                const user = request.payload;
+                user.password = await bcryptAsPromise(user.password, 10);
+                Users.create(user, (err, doc) => {
+                    if (err)
+                        return response(Boom.wrap(err, 400, 'Erro ao criar usuário'))
 
-            if (user.password)
-            user.password = await bcryptAsPromise(user.password, 10);
-
-            Users.create(user, (err, doc) => {
-                if (err)
-                    return response(Boom.wrap(err, 400, 'Erro ao criar usuário'))
-
-                return response(doc)
-            })
+                    return response(doc)
+                })
+            } catch (error) {
+                return Boom.internal()
+            }
+        },
+        config: {
+            validate: {
+                payload: validCreateUser
+            }
         }
     },
     {
@@ -62,7 +59,7 @@ module.exports = [
             const user = request.payload;
 
             if (user.password)
-            user.password = await bcryptAsPromise(user.password, 10);
+                user.password = await bcryptAsPromise(user.password, 10);
 
             Users.updateOne({ _id: request.params.id },
                 { $set: user },
