@@ -1,6 +1,7 @@
 const Boom = require('boom')
 const Projects = require('../models/Projects')
 const Joi = require('joi')
+Joi.objectId = require('joi-objectid')(Joi)
 
 module.exports = [
     {
@@ -8,12 +9,24 @@ module.exports = [
         path: '/projects',
         handler: (request, h) => {
             try {
+                const { offset, limit } = request.query;
                 return Projects.find()
                     .sort({ createdAt: 'asc' })
-                    .limit(1)
+                    .skip(offset)
+                    .limit(limit)
             }
             catch (err) {
-                return response(Boom.wrap(err, 400, 'Erro ao buscar projetos'))
+                return response(Boom.wrap(err, 400, 'Erro ao buscar os projetos'))
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de busca e listagem de projetos',
+            validate: {
+                query: {
+                    offset: Joi.number().integer().min(0).default(0),
+                    limit: Joi.number().integer().min(1).default(10)
+                }
             }
         }
     }
@@ -30,7 +43,16 @@ module.exports = [
                 return result
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto desejado')
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de busca e listagem de um projeto especifica por id',
+            validate: {
+                params: {
+                    id: Joi.objectId().required(),
+                },
             }
         }
     }
@@ -40,12 +62,24 @@ module.exports = [
         path: '/projects/toprated',
         handler: (request, h) => {
             try {
+                const { offset, limit } = request.query;
                 return Projects.find()
                     .sort({ likes: 'desc' })
-                    .limit(10)
+                    .skip(offset)
+                    .limit(limit)
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                return Boom.wrap(err, 400, "Erro ao buscar os 'Top Rated Projects'" )
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: "Rota de busca e listagem de projetos 'Top Rated'",
+            validate: {
+                query: {
+                    offset: Joi.number().integer().min(0).default(0),
+                    limit: Joi.number().integer().min(1).default(10)
+                }
             }
         }
     }
@@ -61,13 +95,13 @@ module.exports = [
                     .limit(1)
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                return Boom.wrap(err, 400, 'Erro ao buscar o projeto de um usuario especifico')
             }
         },
         config: {
             validate: {
                 params: {
-                    userId: Joi.string().required()
+                    userId: Joi.objectId().required()
                 }
             }
         }
@@ -83,6 +117,20 @@ module.exports = [
             }
             catch (err) {
                 return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de cadastro de projeto',
+            validate: {
+                payload: {
+                    name: Joi.string().required(),
+                    description: Joi.string().required(),
+                    createdAt: Joi.date(),
+                    userId: Joi.objectId().required(),
+                    loading: Joi.number(),
+                    likes: Joi.number(),
+                }
             }
         }
     }
@@ -103,8 +151,25 @@ module.exports = [
             catch (err) {
                 return Boom.wrap(err, 400, 'Erro ao buscar projeto')
             }
-
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de cadastro de projeto',
+            validate: {
+                payload: {
+                    name: Joi.string(),
+                    description: Joi.string(),
+                    createdAt: Joi.date(),
+                    userId: Joi.objectId().required(),
+                    loading: Joi.number(),
+                    likes: Joi.number(),
+                },
+                params: {
+                    id: Joi.string().max(50).required(),
+                }
+            }
         }
+        
     }
     ,
     {
@@ -123,6 +188,15 @@ module.exports = [
             }
             catch (err) {
                 return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota para deletar projeto',
+            validate: {
+                params: {
+                    id: Joi.string().max(50).required(),
+                },
             }
         }
     }

@@ -26,7 +26,7 @@ module.exports = [
 
                 return { user: result, token }
             } catch (error) {
-                console.log(error)
+                console.log('errou aqui' ,error)
                 return Boom.internal(error)
             }
         },

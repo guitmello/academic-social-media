@@ -13,11 +13,12 @@ const Inert = require('inert')
 const HapiSwagger = require('hapi-swagger')
 
 const swaggerConfig = {
-    info: {
-        version: '1.0'
+    info:{
+      title: 'Documentação de EndPoints Api',
+      version: '1.0',
     },
-    lang: 'pt'
-}
+    lang:'pt',
+  }
 
 async function start() {
     try {
@@ -47,6 +48,7 @@ async function start() {
                 }
             }
         })
+
 
         server.auth.default('jwt')
 

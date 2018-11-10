@@ -8,17 +8,31 @@ module.exports = [
         path: '/posts',
         handler: (request, h) => {
 
-            const post = request.payload
-
-            Posts.create(post, (error, docs) => {
-
-                if (error) {
-                    return Boom.wrap(error, 400, 'Erro ao salvar a postagem');
+            try {
+                const posts = request.payload;
+                return Posts.create(posts)
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao tentar inserir a postagem')
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de cadastro de postagem',
+            validate: {
+                payload: {
+                    userId: Joi.string().required(),
+                    projectId: Joi.string(),
+                    content: Joi.string().required(),
+                    createdAt: Joi.date(),
+                    likes: Joi.number(),
+                    comments: {
+                        name: Joi.string(),
+                        userId: Joi.string(),
+                        createdAt: Joi.date()
+                    }
                 }
-
-                return docs;
-
-            })
+            }
         }
     }
     ,
@@ -27,18 +41,19 @@ module.exports = [
         path: '/posts',
         handler: (request, response) => {
             const { offset, limit } = request.query
+            try {
+                return Posts.find()
+                    .sort({ createdAt: 'desc' })
+                    .skip(offset)
+                    .limit(limit)
+            } catch (error) {
+                return response(Boom.wrap(error, 400, 'Erro ao buscar as postagens'))
+            }
 
-            Posts.find((err, posts) => {
-                if (err) {
-                    return response(Boom.wrap(error, 400, 'Erro ao buscar as postagens'));
-                }
-                response(posts);
-            })
-                .sort({ createdAt: 'desc' })
-                .skip(offset)
-                .limit(limit)
         },
         config: {
+            tags: ['api'],
+            description: 'Rota de busca e listagem de postagens',
             validate: {
                 query: {
                     offset: Joi.number().integer().min(0).default(0),
@@ -52,37 +67,68 @@ module.exports = [
         method: 'GET',
         path: '/posts/{id}',
         handler: (request, response) => {
-            Posts.findById({ _id: request.params.id },
-                (err, doc) => {
-                    if (err)
-                        return response(Boom.wrap(err, 400, 'Erro ao buscar a postagem desejada'))
 
-                    if (!doc)
-                        return response(Boom.notFound())
+            try {
+                const result = Posts.findById({ _id: request.params.id })
 
-                    response(doc)
+                if (!result)
+                    return Boom.notFound()
 
-                })
+                return result
+
+            } catch (error) {
+                return response(Boom.wrap(err, 400, 'Erro ao buscar a postagem desejada'))
+            }
+
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de busca e listage  de postagem especifica por id',
+            validate: {
+                params: {
+                    id: Joi.string().max(50).required(),
+                },
+            }
         }
     }
     ,
     {
         method: 'PATCH',
         path: '/posts/{id}',
-        handler: (request, response) => {
-            Posts.updateOne({ _id: request.params.id },
-                { $set: request.payload },
-                (err, result) => {
-                    if (err) {
-                        return response(Boom.wrap(err, 400, 'Erro ao salvar a postagem'))
+        handler: async (request, response) => {
+            try {
+                const result = Posts.updateOne({ _id: request.params.id },
+                    { $set: request.payload })
+                if (result.n === 0) {
+                    return Boom.notFound()
+                }
+                return result
+            }
+            catch (error) {
+                return Boom.wrap(error, 400, 'Erro ao salvar a postagem')
+            }
+        }
+        ,
+        config: {
+            tags: ['api'],
+            description: 'Rota de update de postagem',
+            validate: {
+                payload: {
+                    userId: Joi.string(),
+                    projectId: Joi.string(),
+                    content: Joi.string(),
+                    createdAt: Joi.date(),
+                    likes: Joi.number(),
+                    comments: {
+                        name: Joi.string(),
+                        userId: Joi.string(),
+                        createdAt: Joi.date()
                     }
-
-                    if (result.n === 0) {
-                        return response(Boom.notFound())
-                    }
-
-                    response(result);
-                })
+                },
+                params: {
+                    id: Joi.string().max(50).required(),
+                },
+            }
         }
     }
     ,
@@ -91,37 +137,62 @@ module.exports = [
         path: '/posts/{id}',
         handler: (request, response) => {
 
-            Posts.deleteOne({
-                _id: request.params.id
-            }, (err, result) => {
-
-                if (err) {
-                    return response(Boom.wrap(err, 400, 'Erro ao deletar a postagem'));
-                }
+            try {
+                const result = Posts.deleteOne({ _id: request.params.id })
 
                 if (result.n === 0) {
-                    return response(Boom.notFound());
+                    return Boom.notFound();
                 }
 
-                response(result);
-            });
+                return result
+            }
+            catch (error) {
+                return Boom.wrap(err, 400, 'Erro ao deletar a postagem')
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota para deletar postagem',
+            validate: {
+                params: {
+                    id: Joi.string().max(50).required(),
+                },
+            }
         }
     }
     ,
     {
         method: 'GET',
-        path: '/posts/projects/{id}',
+        path: '/posts/projects/{projectId}',
         handler: (request, response) => {
+            const { offset, limit } = request.query;
+            try {
+                const result = Posts.find({ projectId: request.params.projectId })
+                    .sort({ createdAt: 'desc' })
+                    .skip(offset)
+                    .limit(limit)
 
-            Posts.find({ projectId: request.params.id },
-                (err, posts) => {
-                    if (err) {
-                        return response(Boom.wrap(err, 500, 'Erro ao buscar as postagens do projeto'));
-                    }
+                if (!result) {
+                    return Boom.notFound
+                }
+                return result
+            } catch (error) {
+                return Boom.wrap(err, 400, 'Erro ao buscar as postagens do projeto')
+            }
 
-                    response(posts);
-                })
-                .sort({ createdAt: 'desc' })
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de busca e listagem das postagens referentes a um projeto',
+            validate: {
+                query: {
+                    offset: Joi.number().integer().min(0).default(0),
+                    limit: Joi.number().integer().min(1).default(10)
+                },
+                params: {
+                    projectId: Joi.string().max(50).required(),
+                },
+            }
         }
     }
     ,
@@ -130,21 +201,34 @@ module.exports = [
         method: 'GET',
         path: '/posts/users/{userId}',
         handler: (request, response) => {
-            const { offset, limit } = request.query
+            try {
+                const { offset, limit } = request.query
+                const result = Posts.find({ userId: request.params.userId })
+                    .sort({ createdAt: 'desc' })
+                    .skip(offset)
+                    .limit(limit);
 
-            Posts.find({ userId: request.params.userId },
-                (err, doc) => {
-                    if (err)
-                        return response(Boom.wrap(err, 400, 'Erro ao buscar as postagens do usuário'))
+                if (!result)
+                    return Boom.notFound
 
-                    if (!doc)
-                        return response(Boom.notFound())
+                return result
 
-                    response(doc)
-                })
-                .sort({ createdAt: 'desc' })
-                .skip(offset)
-                .limit(limit)
+            } catch (error) {
+                return response(Boom.wrap(err, 400, 'Erro ao buscar as postagens do usuário'))
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota de busca e listagem das postagens referentes a um usuario',
+            validate: {
+                query: {
+                    offset: Joi.number().integer().min(0).default(0),
+                    limit: Joi.number().integer().min(1).default(10)
+                },
+                params: {
+                    userId: Joi.string().max(50).required(),
+                },
+            }
         }
     }
 ]
