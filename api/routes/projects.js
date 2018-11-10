@@ -1,95 +1,129 @@
 const Boom = require('boom')
 const Projects = require('../models/Projects')
-const { promisify } = require('util')
+const Joi = require('joi')
 
 module.exports = [
     {
-        method : 'GET',
-        path  : '/projects',
-        handler : (request, response) => {
-            Projects.find((err, docs) => {
-                if (err)
-                    return response(Boom.wrap(err, 400, 'Erro ao buscar projetos'))
-    
-                response(docs)
-            })
-            .sort({createdAt : 'asc'})
-            .limit(1)
+        method: 'GET',
+        path: '/projects',
+        handler: (request, h) => {
+            try {
+                return Projects.find()
+                    .sort({ createdAt: 'asc' })
+                    .limit(1)
+            }
+            catch (err) {
+                return response(Boom.wrap(err, 400, 'Erro ao buscar projetos'))
+            }
         }
     }
-,    
+    ,
     {
-        method : 'GET',
-        path  : '/projects/{id}',
-        handler : (request, response) => {
-            Projects.findOne({_id : request.params.id},
-                (err, doc) => {
-                    if (err) 
-                        return response(Boom.wrap(err, 400, 'Erro ao buscar projeto'))
-    
-                    if (!doc)
-                        return response(Boom.notFound())
-                    
-                    response(doc)
-    
-                })
-        }
-    }
- ,   
-    {
-        method : 'POST',
-        path : '/projects',
-        handler : async (request, response) => {
-            const project = request.payload;
-            if (!project.createdAt) 
-            project.createdAt = new Date();
-    
-            Projects.create(project, (err, doc) => {
-                if (err)
-                    return response(Boom.wrap(err, 400, 'Erro ao salvar projeto'));
-                
-                return response(doc)
-            })
-        }
-    }
-,
-    {
-        method : 'PATCH',
-        path : '/projects/{id}',
-        handler : (request, response) => {
-            Projects.update({_id : request.params.id},
-                {$set : request.payload},
-                (err, result) => {
-                    if (err)
-                        return response(Boom.wrap(err, 400, 'Erro ao salvar projeto'))
-                    
-                    if (result.n === 0)
-                        return response(Boom.notFound())
+        method: 'GET',
+        path: '/projects/{id}',
+        handler: async (request, h) => {
+            try {
+                const result = await Projects.findOne({ _id: request.params.id })
+                if (!result)
+                    return Boom.notFound()
 
-                    response().code(204);
-                })
+                return result
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
         }
     }
-,
-    {  
+    ,
+    {
+        method: 'GET',
+        path: '/projects/toprated',
+        handler: (request, h) => {
+            try {
+                return Projects.find()
+                    .sort({ likes: 'desc' })
+                    .limit(10)
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
+        }
+    }
+    ,
+    {
+        method: 'GET',
+        path: '/projects/user/{userId}',
+        handler: (request, h) => {
+            try {
+                const { userId } = request.params
+                return Projects.find({ userId: userId })
+                    .sort({ dtcriacao: 'asc' })
+                    .limit(1)
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
+        },
+        config: {
+            validate: {
+                params: {
+                    userId: Joi.string().required()
+                }
+            }
+        }
+    }
+    ,
+    {
+        method: 'POST',
+        path: '/projects',
+        handler: async (request, h) => {
+            try {
+                const project = request.payload;
+                return Projects.create(project)
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
+        }
+    }
+    ,
+    {
+        method: 'PATCH',
+        path: '/projects/{id}',
+        handler: async (request, h) => {
+            try {
+                const result = await Projects.update({ _id: request.params.id },
+                    { $set: request.payload })
+
+                if (result.n === 0)
+                    return Boom.notFound()
+
+                return result
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
+
+        }
+    }
+    ,
+    {
         method: 'DELETE',
         path: '/projects/{id}',
-        handler: (request, response) => {
-    
-            Projects.remove({
-                _id: request.params.id
-            }, (err, result) => {
-    
-                if (err) {
-                    return reply(Boom.wrap(err, 400, 'Erro ao deletar projeto'));
-                }
-    
-                if (result.n === 0) {
-                    return reply(Boom.notFound());
-                }
-    
-                response().code(204);
-            });
+        handler: async (request, h) => {
+            try {
+                const result = await Projects.remove({
+                    _id: request.params.id
+                });
+
+                if (result.n === 0)
+                    return Boom.notFound()
+
+                return result
+            }
+            catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+            }
         }
     }
 ]
