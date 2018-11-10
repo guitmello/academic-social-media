@@ -23,16 +23,26 @@ module.exports = [
             validate: {
                 headers: validateHeader(),
                 payload: {
-                    userId: Joi.string().required(),
+                    user: Joi.object().keys({
+                        userId: Joi.string().required(),
+                        name: Joi.string().required(),
+                        photo: Joi.string().required()
+                    }),
                     projectId: Joi.string(),
                     content: Joi.string().required(),
                     createdAt: Joi.date(),
                     likes: Joi.number(),
-                    comments: {
-                        name: Joi.string(),
-                        userId: Joi.string(),
-                        createdAt: Joi.date()
-                    }
+                    photo: Joi.string(),
+                    comments: [{
+                        user: Joi.object().keys(
+                        {
+                            name: Joi.string(),
+                            userId: Joi.string(),                            
+                        }),
+                        createdAt: Joi.date(),
+                        content: Joi.string(),
+                        
+                    }]
                 }
             }
         }
@@ -49,7 +59,7 @@ module.exports = [
                     .skip(offset)
                     .limit(limit)
             } catch (error) {
-                return response(Boom.wrap(error, 400, 'Erro ao buscar as postagens'))
+                return Boom.wrap(error, 400, 'Erro ao buscar as postagens')
             }
 
         },
@@ -90,7 +100,7 @@ module.exports = [
             validate: {
                 headers: validateHeader(),
                 params: {
-                    id: Joi.string().max(50).required(),
+                    id: Joi.string().required(),
                 },
             }
         }
@@ -119,11 +129,9 @@ module.exports = [
             validate: {
                 headers: validateHeader(),
                 payload: {
-                    userId: Joi.string(),
-                    projectId: Joi.string(),
                     content: Joi.string(),
-                    createdAt: Joi.date(),
                     likes: Joi.number(),
+                    photo: Joi.string(),
                     comments: {
                         name: Joi.string(),
                         userId: Joi.string(),
@@ -131,7 +139,7 @@ module.exports = [
                     }
                 },
                 params: {
-                    id: Joi.string().max(50).required(),
+                    id: Joi.string().required(),
                 },
             }
         }
@@ -161,7 +169,7 @@ module.exports = [
             validate: {
                 headers: validateHeader(),
                 params: {
-                    id: Joi.string().max(50).required(),
+                    id: Joi.string().required(),
                 },
             }
         }
@@ -182,6 +190,7 @@ module.exports = [
                     return Boom.notFound
                 }
                 return result
+
             } catch (error) {
                 return Boom.wrap(err, 400, 'Erro ao buscar as postagens do projeto')
             }
@@ -197,7 +206,7 @@ module.exports = [
                     limit: Joi.number().integer().min(1).default(10)
                 },
                 params: {
-                    projectId: Joi.string().max(50).required(),
+                    projectId: Joi.string().required(),
                 },
             }
         }
@@ -234,8 +243,79 @@ module.exports = [
                     limit: Joi.number().integer().min(1).default(10)
                 },
                 params: {
-                    userId: Joi.string().max(50).required(),
+                    userId: Joi.string().required(),
                 },
+            }
+        }
+    }
+    ,
+    {
+        method: 'POST',
+        path: '/posts/{id}/comentarios',
+        handler: (request, response) => {
+
+            try {
+                    const result =  Posts.updateOne({ _id: request.params.id }, { $push: { comments: request.payload }})  
+                console.log('entrou aqui', result)
+                    if (result.n === 0)
+                    return Boom.notFound()
+
+                    return result
+            } catch (error) {
+                return Boom.wrap(err, 400, 'Erro ao salvar comentário da postagem')
+            }
+        },
+        config: {            
+            tags: ['api'],
+            description: 'Rota para cadastrar comentarios em uma postagem',
+            validate: {     
+                headers: validateHeader(),     
+                params: {
+                    id: Joi.string().required()
+                },      
+                payload: {
+                    content: Joi.string().required(),
+                    user: Joi.object().keys({
+                        userId: Joi.string().required(),
+                        name: Joi.string().required(),
+                        photo: Joi.string().required()
+                    }),
+                }
+            }
+        }
+    }
+    ,
+    {
+        method: 'GET',
+        path: '/posts/{id}/comentarios',
+        handler: async (request, response) => {
+            try {
+                const { offset, limit } = request.query
+                const doc = await Posts.findOne({ _id: request.params.id }).sort({createdAt: 'asc'})
+
+                if (doc.comments[0]) {
+                    const comentarios = doc.comments.splice(offset, limit)
+                    return comentarios
+                }
+                else {
+                    return Boom.notFound()
+                }
+            } catch (err) {
+                return Boom.wrap(err, 400, 'Erro ao buscar os comentarios da postagem')
+            }
+        },
+        config: {            
+            tags: ['api'],
+            description: 'Rota para buscar e listar todos os comentarios de uma postagem',
+            validate: {
+                headers: validateHeader(),
+                params: {
+                    id: Joi.string().required()
+                },
+                query: {
+                    offset: Joi.number().integer().min(0).default(0),
+                    limit: Joi.number().integer().min(1).default(10)
+                }
             }
         }
     }

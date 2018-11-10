@@ -29,6 +29,9 @@ var ProjectsSchema = new Schema({
     likes: {
         type: Number,
         min: [0, 'O mínimo de curtidas é 0']
+    },
+    photo: {
+        type: String
     }
 });
 

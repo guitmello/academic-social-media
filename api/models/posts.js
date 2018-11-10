@@ -3,12 +3,24 @@ const Schema = Mongoose.Schema;
 
 const PostSchema = new Schema({
 
-    userId: {
-        type: String,
-        required: true
+    user: {
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Users',
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        photo:{
+            type: String,
+            requeired: true
+        }
     },
     projectId: {
-        type: String
+        type: Schema.Types.ObjectId,
+        ref: 'Projects',
     },
     content: {
         type: String,
@@ -21,16 +33,25 @@ const PostSchema = new Schema({
     likes: {
         type: Number
     },
-    // images: {
-    //     type: 
-    // },
+    photo: {
+        type: String
+    },
     comments: [
         {
             content: {
                 type: String,
             },
-            userId: {
-                type: String,
+            user: {
+                userId: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Users',
+                },
+                name: {
+                    type: String
+                },
+                photo:{
+                    type: String
+                }
             },
             createdAt: {
                 type: Date,

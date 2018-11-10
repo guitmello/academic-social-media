@@ -23,10 +23,9 @@ module.exports = [
                 }
 
                 const token = await createToken(result)
-
+                
                 return { user: result, token }
             } catch (error) {
-                console.log('errou aqui', error)
                 return Boom.internal(error)
             }
         },
@@ -134,9 +133,7 @@ module.exports = [
                 params: {
                     id: Joi.string().required()
                 },
-                payload: {
-                    name: Joi.string().min(2).max(50)
-                }
+                payload: validCreateUser
             }
         }
     },

@@ -19,7 +19,31 @@ const userModel = new Schema({
         type: String,
         required: true
     },
-    created_at: { type: Date, required: true, default: Date() }
+    photo: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    cpf: {
+        type: String,
+        required: true,
+    },
+    gender: {
+        type: String,
+        required: true,
+    },
+    birthDate: {
+        type: Date,
+        required: true,
+    },
+    created_at:
+    {
+        type: Date,
+        default: Date()
+    }
 });
 
 module.exports = mongoose.model('Users', userModel)

@@ -2,7 +2,6 @@ const Boom = require('boom')
 const Projects = require('../models/Projects')
 const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
-Joi.objectId = require('joi-objectid')(Joi)
 
 module.exports = [
     {
@@ -54,7 +53,7 @@ module.exports = [
             validate: {
                 headers: validateHeader(),
                 params: {
-                    id: Joi.objectId().required(),
+                    id: Joi.string().required(),
                 },
             }
         }
@@ -106,7 +105,7 @@ module.exports = [
             validate: {
                 headers: validateHeader(),
                 params: {
-                    userId: Joi.objectId().required()
+                    userId: Joi.string().required()
                 }
             }
         }
@@ -133,9 +132,10 @@ module.exports = [
                     name: Joi.string().required(),
                     description: Joi.string().required(),
                     createdAt: Joi.date(),
-                    userId: Joi.objectId().required(),
+                    userId: Joi.string().required(),
                     loading: Joi.number(),
                     likes: Joi.number(),
+                    photo: Joi.string(),
                 }
             }
         }
@@ -167,9 +167,10 @@ module.exports = [
                     name: Joi.string(),
                     description: Joi.string(),
                     createdAt: Joi.date(),
-                    userId: Joi.objectId().required(),
+                    userId: Joi.string().required(),
                     loading: Joi.number(),
                     likes: Joi.number(),
+                    photo: Joi.string(),
                 },
                 params: {
                     id: Joi.string().max(50).required(),
