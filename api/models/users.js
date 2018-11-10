@@ -11,8 +11,13 @@ const userModel = new Schema({
         required: true,
         index: { unique: true }
     },
+    area: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
+        select: false,
         required: true
     },
     created_at: { type: Date, required: true, default: Date() }

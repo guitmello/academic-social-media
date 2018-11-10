@@ -1,30 +1,25 @@
 'use strict';
 
-const Joi = require('joi');
+const Joi = require('joi')
+const Boom = require('boom')
+const bcrypt = require('bcrypt')
+const Users = require('../models/users')
 
 const validCreateUser = Joi.object({
     name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    area: Joi.string().required()
 })
 
-function verifyCredentials(req, res) {
-    const password = req.payload.password;
-
-    User.findOne({ email: req.payload.email }, (err, user) => {
-        if (user) {
-            bcrypt.compare(password, user.password, (err, isValid) => {
-                if (isValid) {
-                    res(user);
-                }
-                else {
-                    res(Boom.badRequest('Senha incorreta!'));
-                }
-            });
-        } else {
-            res(Boom.badRequest('Usuário não encontrado!'));
-        }
-    });
+async function verifyCredentials(email, password) {
+    const user = await Users.findOne({ email: email })
+    if (user) {
+        const isValid = await bcrypt.compare(password, user.password)
+        return (isValid) ? user : Boom.badRequest('Usuário ou senha inválida!', false)
+    } else {
+        return Boom.badRequest('Usuário ou senha inválida!', false)
+    }
 }
 
 module.exports = {

@@ -1,2 +1,2 @@
-const key = 'secretkey';
-module.exports = key;
+const key = 'secretkey'
+module.exports = key

@@ -1,8 +1,9 @@
-'use strict';
-const jwt = require('jsonwebtoken');
-const secret = require('../config');
+'use strict'
 
-function createToken(user) {
-    return jwt.sign({ id: user._id, name: user.name }, secret, { algorithm: 'HS256', expiresIn: "1h" });
+const jwt = require('jsonwebtoken')
+const secret = require('../config')
+
+async function createToken(user) {
+    return await jwt.sign({ id: user._id, email: user.email }, secret, { algorithm: 'HS256', expiresIn: "1h" })
 }
-module.exports = createToken;
+module.exports = createToken

@@ -1,11 +1,11 @@
 const Boom = require('boom')
 const bcrypt = require('bcrypt')
-const Jwt = require('jsonwebtoken')
-const secret = require('../config')
 const Joi = require('joi')
 const { promisify } = require('util')
+const createToken = require('../util/token')
 const Users = require('../models/users')
-const validCreateUser = require('../util/userFunctions').validCreateUser
+const { validCreateUser, verifyCredentials } = require('../util/userFunctions')
+const validateHeader = require('../util/validateHeader')
 
 const bcryptAsPromise = promisify(bcrypt.hash)
 
@@ -14,26 +14,26 @@ module.exports = [
         path: '/login',
         method: 'POST',
         handler: async (req, h) => {
-            const { username, senha } = req.payload
+            try {
+                const { email, password } = req.payload
+                const result = await verifyCredentials(email, password)
 
-            if (username.toLowerCase() !== USUARIO.username.toLowerCase() || senha !== USUARIO.senha) {
-                return Boom.unauthorized('Não vai acessar, bonitão')
-            }
+                if (result.isBoom) {
+                    return result.output.payload.message
+                }
 
-            const dadosToken = {
-                username,
-                company: 'globo.com'
-            }
-            const token = Jwt.sign(dadosToken, secret)
+                const token = await createToken(result)
 
-            return {
-                token
+                return { user: result, token }
+            } catch (error) {
+                console.log(error)
+                return Boom.internal(error)
             }
         },
         config: {
             auth: false,
             tags: ['api'],
-            description: 'Deve gera um token para o usuário',
+            description: 'Gerar token para o usuário',
             validate: {
                 payload: {
                     email: Joi.string().max(50).required(),
@@ -51,6 +51,13 @@ module.exports = [
             } catch (error) {
                 return Boom.internal()
             }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Retorna listagem de usuários',
+            validate: {
+                headers: validateHeader()
+            }
         }
     },
     {
@@ -62,26 +69,34 @@ module.exports = [
             } catch (error) {
                 return Boom.internal()
             }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Retorna usuário específico',
+            validate: {
+                headers: validateHeader(),
+                params: {
+                    id: Joi.string().required()
+                }
+            }
         }
     },
     {
         method: 'POST',
         path: '/users',
-        handler: async (request, response) => {
+        handler: async (request, h) => {
             try {
                 const user = request.payload;
-                user.password = await bcryptAsPromise(user.password, 10);
-                Users.create(user, (err, doc) => {
-                    if (err)
-                        return response(Boom.wrap(err, 400, 'Erro ao criar usuário'))
-
-                    return response(doc)
-                })
+                user.password = await bcryptAsPromise(user.password, 10)
+                return Users.create(user)
             } catch (error) {
                 return Boom.internal()
             }
         },
         config: {
+            auth: false,
+            tags: ['api'],
+            description: 'Criar Usuário',
             validate: {
                 payload: validCreateUser
             }
@@ -90,39 +105,51 @@ module.exports = [
     {
         method: 'PATCH',
         path: '/users/{id}',
-        handler: async (request, response) => {
-            const user = request.payload;
+        handler: async (request, h) => {
+            try {
+                const user = request.payload;
 
-            if (user.password)
-                user.password = await bcryptAsPromise(user.password, 10);
+                if (user.password)
+                    user.password = await bcryptAsPromise(user.password, 10);
 
-            Users.updateOne({ _id: request.params.id },
-                { $set: user },
-                (err, result) => {
-                    if (err)
-                        return response(Boom.wrap(err, 'Erro ao atualizar usuário'))
-
-                    if (result.n === 0)
-                        return response(Boom.notFound())
-
-                    response().code(204);
-                })
+                return Users.updateOne({ _id: request.params.id }, { $set: user })
+            } catch (error) {
+                return Boom.internal()
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Atualizar Usuário',
+            validate: {
+                headers: validateHeader(),
+                params: {
+                    id: Joi.string().required()
+                },
+                payload: {
+                    name: Joi.string().min(2).max(50)
+                }
+            }
         }
     },
     {
         method: 'DELETE',
         path: '/users/{id}',
-        handler: async (request, response) => {
-            Users.deleteOne({ _id: request.params.id },
-                (err, result) => {
-                    if (err)
-                        return response(Boom.wrap(err, 'Erro ao deletar usuário'))
-
-                    if (result.n === 0)
-                        return response(Boom.notFound())
-
-                    response().code(204);
-                })
+        handler: async (request, h) => {
+            try {
+                return Users.deleteOne({ _id: request.params.id })
+            } catch (error) {
+                return Boom.internal()
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Deletar Usuário',
+            validate: {
+                headers: validateHeader(),
+                params: {
+                    id: Joi.string().required()
+                }
+            }
         }
     }
 ]

@@ -6,26 +6,18 @@ const db = require('./database/database.js').db
 const routes = require('./routes/routes.js')
 const secret = require('./config')
 const HapiJwt = require('hapi-auth-jwt2')
-const Jwt = require('jsonwebtoken')
 
+//Doc
+const Vision = require('vision')
+const Inert = require('inert')
+const HapiSwagger = require('hapi-swagger')
 
-// await app.register([
-//     HapiJwt,
-//     Vision,
-//     Inert,
-//     {
-//         plugin: HapiSwagger,
-//         options: swaggerConfig
-//     }
-// ])
-
-// server.register(require('hapi-auth-jwt2'), (err) => {
-
-//     server.auth.strategy('jwt', 'jwt', {
-//         key: secret,
-//         verifyOptions: { algorithms: ['HS256'] }
-//     })
-// })
+const swaggerConfig = {
+    info: {
+        version: '1.0'
+    },
+    lang: 'pt'
+}
 
 async function start() {
     try {
@@ -34,7 +26,15 @@ async function start() {
             port: environment.server.port
         })
 
-        await server.register([HapiJwt])
+        await server.register([
+            HapiJwt,
+            Vision,
+            Inert,
+            {
+                plugin: HapiSwagger,
+                options: swaggerConfig
+            }
+        ])
 
         server.auth.strategy('jwt', 'jwt', {
             key: secret,
@@ -48,14 +48,13 @@ async function start() {
             }
         })
 
-        //Registramos a estratégia default de autenticação
         server.auth.default('jwt')
 
         server.app.db = db
         server.route(routes)
 
         await server.start()
-        console.log(`Servidor rodando em ${server.info.uri}`)
+        console.log(`Server running in ${server.info.uri}`)
     } catch (err) {
         console.log(err)
         process.exit(1)
