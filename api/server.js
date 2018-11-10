@@ -6,6 +6,7 @@ const db = require('./database/database.js').db
 const routes = require('./routes/routes.js')
 const secret = require('./config')
 const HapiJwt = require('hapi-auth-jwt2')
+const Jwt = require('jsonwebtoken')
 
 
 // await app.register([
@@ -34,6 +35,21 @@ async function start() {
         })
 
         await server.register([HapiJwt])
+
+        server.auth.strategy('jwt', 'jwt', {
+            key: secret,
+            verifyOptions: {
+                algorithms: ['HS256']
+            },
+            validate: (data, request, callback) => {
+                return {
+                    isValid: true
+                }
+            }
+        })
+
+        //Registramos a estratégia default de autenticação
+        server.auth.default('jwt')
 
         server.app.db = db
         server.route(routes)

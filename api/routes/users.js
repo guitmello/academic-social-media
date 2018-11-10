@@ -1,5 +1,8 @@
 const Boom = require('boom')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
+const Jwt = require('jsonwebtoken')
+const secret = require('../config')
+const Joi = require('joi')
 const { promisify } = require('util')
 const Users = require('../models/users')
 const validCreateUser = require('../util/userFunctions').validCreateUser
@@ -7,6 +10,38 @@ const validCreateUser = require('../util/userFunctions').validCreateUser
 const bcryptAsPromise = promisify(bcrypt.hash)
 
 module.exports = [
+    {
+        path: '/login',
+        method: 'POST',
+        handler: async (req, h) => {
+            const { username, senha } = req.payload
+
+            if (username.toLowerCase() !== USUARIO.username.toLowerCase() || senha !== USUARIO.senha) {
+                return Boom.unauthorized('Não vai acessar, bonitão')
+            }
+
+            const dadosToken = {
+                username,
+                company: 'globo.com'
+            }
+            const token = Jwt.sign(dadosToken, secret)
+
+            return {
+                token
+            }
+        },
+        config: {
+            auth: false,
+            tags: ['api'],
+            description: 'Deve gera um token para o usuário',
+            validate: {
+                payload: {
+                    email: Joi.string().max(50).required(),
+                    password: Joi.string().max(100).required()
+                }
+            }
+        }
+    },
     {
         method: 'GET',
         path: '/users',
