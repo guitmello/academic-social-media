@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfHeaderComponent } from './prof-header.component';
+import { ProfileHeaderComponent } from './profile-header.component';
 
 describe('ProfHeaderComponent', () => {
-  let component: ProfHeaderComponent;
-  let fixture: ComponentFixture<ProfHeaderComponent>;
+  let component: ProfileHeaderComponent;
+  let fixture: ComponentFixture<ProfileHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfHeaderComponent ]
+      declarations: [ ProfileHeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfHeaderComponent);
+    fixture = TestBed.createComponent(ProfileHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

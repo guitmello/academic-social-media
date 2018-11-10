@@ -1,10 +1,6 @@
 .card-profile{
-    width: 216px;
     height: auto;
-    box-shadow: 0 0 10px 0 #ccc;
-    margin: 10px;
     text-align: center;
-    border-radius: 10px;
     position: relative;
     overflow: hidden;
 }
