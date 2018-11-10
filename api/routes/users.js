@@ -47,7 +47,7 @@ module.exports = [
         path: '/users',
         handler: async (request, h) => {
             try {
-                return Users.find().limit(20)
+                return Users.find().select("-password").limit(20)
             } catch (error) {
                 return Boom.internal()
             }
@@ -65,7 +65,7 @@ module.exports = [
         path: '/users/{id}',
         handler: async (request, h) => {
             try {
-                return Users.findOne({ _id: request.params.id })
+                return Users.findOne({ _id: request.params.id }).select("-password")
             } catch (error) {
                 return Boom.internal()
             }
