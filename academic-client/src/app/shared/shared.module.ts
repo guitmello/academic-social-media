@@ -17,6 +17,11 @@ import {
   MatTabsModule,
   MatDatepickerModule
 } from '@angular/material';
+import { UserProfileComponent } from './profile/user-profile/user-profile.component';
+import { ProfileDashComponent } from './profile/profile-dash/profile-dash.component';
+import { ProfileHeaderComponent } from './profile/profile-header/profile-header.component';
+import { TopRatedProject } from './top-rated-project/top-rated-project.component';
+import { TimelineProjectComponent } from './timeline/timeline-project/timeline-project.component';
 
 @NgModule({
   imports: [
@@ -35,8 +40,19 @@ import {
     MatOptionModule,
     MatNativeDateModule
   ],
-  declarations: [],
+  declarations: [
+    UserProfileComponent,
+    ProfileDashComponent,
+    ProfileHeaderComponent,
+    TopRatedProject,
+    TimelineProjectComponent
+  ],
   exports: [
+    UserProfileComponent,
+    ProfileDashComponent,
+    ProfileHeaderComponent,
+    TopRatedProject,
+    TimelineProjectComponent,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
