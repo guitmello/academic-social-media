@@ -1,11 +1,8 @@
 .card-profile{
-    width: 820px;
     height: auto;
-    box-shadow: 0 0 10px 0 #ccc;
-    margin: 10px;
-    border-radius: 10px;
     position: relative;
     overflow: hidden;
+    margin-right: 10px;
 }
 .cropedPhoto{
     width: 100px;
