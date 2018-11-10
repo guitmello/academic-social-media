@@ -49,9 +49,9 @@ module.exports = [
             try {
                 const { offset, limit } = request.query
                 return Users.find()
+                    .select("-password")
                     .skip(offset)
                     .limit(limit)
-
             } catch (error) {
                 return Boom.internal(error)
             }
@@ -73,7 +73,7 @@ module.exports = [
         path: '/users/{id}',
         handler: async (request, h) => {
             try {
-                return Users.findOne({ _id: request.params.id })
+                return Users.findOne({ _id: request.params.id }).select("-password")
             } catch (error) {
                 return Boom.internal()
             }
