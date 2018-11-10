@@ -1,10 +1,7 @@
 .post-details {
-  width: 300px;
-  background: #FFFFFF;
-  border-radius: 10px;
   display: flex;
   flex-flow: row wrap;
-  padding: .25em 1.75em;
+  margin-top: 15px;
 }
 
 .post-details__header {

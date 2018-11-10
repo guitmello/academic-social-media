@@ -24,4 +24,8 @@ export class LoginService {
     this.router.navigateByUrl('/login');
   }
 
+  logout() {
+    
+  }
+
 }

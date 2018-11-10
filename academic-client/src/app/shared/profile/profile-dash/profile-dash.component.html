@@ -1,8 +1,10 @@
 <mat-card class="no-p card-profile">
   <div class="backgroundPicture">
-    <div class="cropedPhoto">
-      <img src="https://meapaixonei.com.br/wp-content/uploads/2017/10/sinais-que-comprovam-que-voce-tem-se-tornado-uma-pessoa-melhor-a-cada-dia.jpg">
-    </div>
+    <a [routerLink]="[ 'user/profile/', 1 ]">
+      <div class="cropedPhoto">
+        <img src="https://meapaixonei.com.br/wp-content/uploads/2017/10/sinais-que-comprovam-que-voce-tem-se-tornado-uma-pessoa-melhor-a-cada-dia.jpg">
+      </div>
+    </a>
   </div>
   <div class="otherInfos">
     <h3>Sabrina Spellman</h3>

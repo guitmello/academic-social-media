@@ -1,11 +1,13 @@
 export interface User {
     _id: string;
     name: string;
-    cpf: number;
+    cpf: string;
     email: string;
     photo: string;
     gender: string;
-    phone: number;
+    phone: string;
     token: string;
     birthDate: Date;
+    password: string;
+    area: string;
 }

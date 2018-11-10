@@ -12,7 +12,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { SharedModule } from './shared/shared.module';
-import { PostModule } from './post/post.module';
+import { ProjectModule } from './project/project.module';
+ProjectModule
 
 
 @NgModule({
@@ -25,11 +26,11 @@ import { PostModule } from './post/post.module';
   imports: [
     BrowserModule,
     SharedModule,
-    PostModule,
+    ProjectModule,
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [LoginService, UserService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
