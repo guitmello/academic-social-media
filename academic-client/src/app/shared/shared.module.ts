@@ -27,6 +27,7 @@ import { TimelineProjectComponent } from './timeline/timeline-project/timeline-p
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
@@ -54,6 +55,7 @@ import { TimelineProjectComponent } from './timeline/timeline-project/timeline-p
     TopRatedProject,
     TimelineProjectComponent,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
