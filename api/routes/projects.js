@@ -1,5 +1,6 @@
 const Boom = require('boom')
 const Projects = require('../models/Projects')
+const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
 Joi.objectId = require('joi-objectid')(Joi)
 
@@ -23,6 +24,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de busca e listagem de projetos',
             validate: {
+                headers: validateHeader(),
                 query: {
                     offset: Joi.number().integer().min(0).default(0),
                     limit: Joi.number().integer().min(1).default(10)
@@ -50,6 +52,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de busca e listagem de um projeto especifica por id',
             validate: {
+                headers: validateHeader(),
                 params: {
                     id: Joi.objectId().required(),
                 },
@@ -76,6 +79,7 @@ module.exports = [
             tags: ['api'],
             description: "Rota de busca e listagem de projetos 'Top Rated'",
             validate: {
+                headers: validateHeader(),
                 query: {
                     offset: Joi.number().integer().min(0).default(0),
                     limit: Joi.number().integer().min(1).default(10)
@@ -100,6 +104,7 @@ module.exports = [
         },
         config: {
             validate: {
+                headers: validateHeader(),
                 params: {
                     userId: Joi.objectId().required()
                 }
@@ -123,6 +128,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de cadastro de projeto',
             validate: {
+                headers: validateHeader(),
                 payload: {
                     name: Joi.string().required(),
                     description: Joi.string().required(),
@@ -156,6 +162,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de cadastro de projeto',
             validate: {
+                headers: validateHeader(),
                 payload: {
                     name: Joi.string(),
                     description: Joi.string(),
@@ -194,6 +201,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota para deletar projeto',
             validate: {
+                headers: validateHeader(),
                 params: {
                     id: Joi.string().max(50).required(),
                 },

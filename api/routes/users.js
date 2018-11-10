@@ -26,7 +26,7 @@ module.exports = [
 
                 return { user: result, token }
             } catch (error) {
-                console.log('errou aqui' ,error)
+                console.log('errou aqui', error)
                 return Boom.internal(error)
             }
         },
@@ -47,16 +47,24 @@ module.exports = [
         path: '/users',
         handler: async (request, h) => {
             try {
-                return Users.find().limit(20)
+                const { offset, limit } = request.query
+                return Users.find()
+                    .skip(offset)
+                    .limit(limit)
+
             } catch (error) {
-                return Boom.internal()
+                return Boom.internal(error)
             }
         },
         config: {
             tags: ['api'],
             description: 'Retorna listagem de usuários',
             validate: {
-                headers: validateHeader()
+                headers: validateHeader(),
+                query: {
+                    offset: Joi.number().integer().min(0).default(0),
+                    limit: Joi.number().integer().min(1).default(10)
+                },
             }
         }
     },
@@ -113,6 +121,7 @@ module.exports = [
                     user.password = await bcryptAsPromise(user.password, 10);
 
                 return Users.updateOne({ _id: request.params.id }, { $set: user })
+
             } catch (error) {
                 return Boom.internal()
             }

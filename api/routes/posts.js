@@ -1,5 +1,6 @@
 const Boom = require('boom')
 const Posts = require('../models/Posts')
+const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
 
 module.exports = [
@@ -20,6 +21,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de cadastro de postagem',
             validate: {
+                headers: validateHeader(),
                 payload: {
                     userId: Joi.string().required(),
                     projectId: Joi.string(),
@@ -55,6 +57,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de busca e listagem de postagens',
             validate: {
+                headers: validateHeader(),
                 query: {
                     offset: Joi.number().integer().min(0).default(0),
                     limit: Joi.number().integer().min(1).default(10)
@@ -85,6 +88,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de busca e listage  de postagem especifica por id',
             validate: {
+                headers: validateHeader(),
                 params: {
                     id: Joi.string().max(50).required(),
                 },
@@ -113,6 +117,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de update de postagem',
             validate: {
+                headers: validateHeader(),
                 payload: {
                     userId: Joi.string(),
                     projectId: Joi.string(),
@@ -154,6 +159,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota para deletar postagem',
             validate: {
+                headers: validateHeader(),
                 params: {
                     id: Joi.string().max(50).required(),
                 },
@@ -185,6 +191,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de busca e listagem das postagens referentes a um projeto',
             validate: {
+                headers: validateHeader(),
                 query: {
                     offset: Joi.number().integer().min(0).default(0),
                     limit: Joi.number().integer().min(1).default(10)
@@ -221,6 +228,7 @@ module.exports = [
             tags: ['api'],
             description: 'Rota de busca e listagem das postagens referentes a um usuario',
             validate: {
+                headers: validateHeader(),
                 query: {
                     offset: Joi.number().integer().min(0).default(0),
                     limit: Joi.number().integer().min(1).default(10)
