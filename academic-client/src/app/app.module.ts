@@ -3,18 +3,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-
-import { LoginService } from './security/login/login.service';
-import { UserService } from './user/user.service';
+import { SharedModule } from './shared/shared.module';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
-import { SharedModule } from './shared/shared.module';
-import { ProjectModule } from './project/project.module';
-ProjectModule
-
+import { ProfileModule } from './profile/profile.module';
+import { TimelineModule } from './timeline/timeline.module';
+import { LoginComponent } from './security/login/login.component';
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './store/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -22,13 +21,18 @@ ProjectModule
     NotFoundComponent,
     HeaderComponent,
     HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    SharedModule,
-    ProjectModule,
+    ProfileModule,
+    TimelineModule,
+    SharedModule.forRoot(),
+    StoreModule.forRoot(
+      {auth: authReducer}
+    ),
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -22,6 +22,7 @@
                 <mat-form-field>
                   <input
                     matInput
+                    [(ngModel)]="user.name"
                     formControlName="name"
                     type="text"
                     placeholder="Nome"
@@ -35,6 +36,7 @@
                 <mat-form-field>
                   <input
                     matInput
+                    [(ngModel)]="user.email"
                     formControlName="email"
                     type="email"
                     placeholder="Email"
@@ -43,11 +45,12 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="pure-u-sm-1 pure-u-md-1-2">
+            <div class="pure-u-sm-1 pure-u-md-1-5">
               <div class="form-control">
                 <mat-form-field>
                   <input
                     matInput
+                    [(ngModel)]="user.cpf"
                     formControlName="cpf"
                     type="text"
                     placeholder="CPF"
@@ -56,11 +59,26 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="pure-u-sm-1 pure-u-md-1-2">
+            <div class="pure-u-sm-1 pure-u-md-2-5">
+                <div class="form-control">
+                  <mat-form-field>
+                    <input
+                      matInput
+                      [(ngModel)]="user.phone"
+                      formControlName="phone"
+                      type="text"
+                      placeholder="Telefone"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+            <div class="pure-u-sm-1 pure-u-md-2-5">
               <div class="form-control">
                 <mat-form-field>
                   <input
                     matInput
+                    [(ngModel)]="user.birthDate"
                     formControlName="birthDate"
                     [min]="minDate"
                     [max]="maxDate"
@@ -75,20 +93,47 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="pure-u-1">
-              <mat-form-field>
-                <mat-select formControlName="professionalArea" placeholder="Area Profissional" required>
-                  <mat-option *ngFor="let area of areaArray" [value]="area">
-                    {{ area }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+            <div class="pure-u-sm-1 pure-u-md-1-2">
+              <div class="form-control">
+                <mat-form-field>
+                  <mat-select
+                    [(ngModel)]="user.gender"
+                    formControlName="gender"
+                    placeholder="Sexo"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let gender of genderArray"
+                      [value]="gender"
+                    >
+                      {{ gender }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="pure-u-sm-1 pure-u-md-1-2">
+              <div class="form-control">
+                <mat-form-field>
+                  <mat-select
+                    [(ngModel)]="user.area"
+                    formControlName="area"
+                    placeholder="Area Profissional"
+                    required
+                  >
+                    <mat-option *ngFor="let area of areaArray" [value]="area">
+                      {{ area }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
             <div class="pure-u-sm-1 pure-u-md-1-2">
               <div class="form-control">
                 <mat-form-field>
                   <input
                     matInput
+                    [(ngModel)]="user.password"
                     formControlName="password"
                     [type]="hide ? 'password' : 'text'"
                     placeholder="Senha"

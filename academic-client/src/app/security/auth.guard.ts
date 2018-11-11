@@ -1,27 +1,31 @@
-import { CanLoad, Route, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanLoad, Route, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { LoginService } from './login/login.service';
+import { Store } from '@ngrx/store';
+import { AuthState } from '../store/auth.reducer';
+import { Observable } from 'rxjs/observable';
+import { map } from 'rxjs/operators';
 
 
 @Injectable()
-export class AuthGuard implements CanLoad, CanActivate {
+export class AuthGuard implements CanActivate {
 
-    constructor (private loginService: LoginService) {}
+    constructor (
+        private loginService: LoginService,
+        private store: Store<AuthState>,
+        private router: Router
+    ) {}
 
-    checkAuthentication(path: string): boolean {
-        const loggedIn = this.loginService.isLoggedIn();
-        if (!loggedIn) {
-            this.loginService.handleLogin(`/${path}`);
-        }
-        return loggedIn;
-    }
-
-    canLoad(route: Route): boolean {
-        return this.checkAuthentication(route.path);
-    }
-
-    canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): boolean {
-        return this.checkAuthentication(activatedRoute.routeConfig.path);
+    canActivate(next: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+        return this.store.select('user').pipe(
+            map(response => {
+                if (response.token == null) {
+                    this.router.navigateByUrl('/login');
+                    return false;
+                }
+                return true;
+            })
+        );
     }
 
 }

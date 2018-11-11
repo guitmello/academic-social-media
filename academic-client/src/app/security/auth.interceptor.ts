@@ -1,5 +1,5 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/observable';
 import { Injectable, Injector } from '@angular/core';
 import { LoginService } from './login/login.service';
 
@@ -10,8 +10,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const loginService = this.injector.get(LoginService);
-        if (loginService.isLoggedIn()) {
-            const authRequest = request.clone({setHeaders: {'Authorization': loginService.user.token}});
+        if (loginService.isLoggedIn(true)) {
+            const authRequest = request.clone({setHeaders: {'Authorization': `jwt ${loginService.user.token}`}});
             return next.handle(authRequest);
         } else {
             return next.handle(request);
