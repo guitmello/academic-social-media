@@ -1,11 +1,11 @@
 const Mongoose = require('mongoose');
 const environment = require('./common/environment')
 
-const seedsBase64 = require('./seeds-imgs-base64')
-
 const Users = require('./models/Users')
 const Projects = require('./models/Projects')
 const Posts = require('./models/Posts')
+const Followers = require('./models/Followers')
+const Following = require('./models/Following')
 
 Mongoose.connect(environment.db.url, { useNewUrlParser: true });
 const db = Mongoose.connection;
@@ -14,7 +14,7 @@ db.on('error', console.error.bind(console, 'Erro de conexão'));
 db.once('open', async function callback() {
     console.log('Conexão com o banco de dados ativa - seeds tests');
     await this.dropDatabase();
-    console.log('removidos, chamado setup')
+    console.log('Base de dados limpa. Seeds starting!')
     setupInc()
 });
 
@@ -84,6 +84,19 @@ async function setupInc() {
             (err, doc) => { })
 
     }
+
+    Following.create({
+        _id: samples[0].usuario._id,
+        following: [samples[1].usuario._id]
+    },
+        (error, doc) => {
+            console.log('ID do que está seguindo (test timeline)', doc)
+        })
+
+    Followers.create({
+        _id: samples[1].usuario._id,
+        followers: [samples[0].usuario._id]
+    })
 
 
     console.timeEnd('seeds')
