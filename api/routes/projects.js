@@ -3,21 +3,26 @@ const Projects = require('../models/Projects')
 const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
 const imgFunctions = require('../util/imgFunctions')
+const Logs = require('../util/logs')
 
 module.exports = [
     {
         method: 'GET',
         path: '/projects',
-        handler: (request, h) => {
+        handler: async (request, h) => {
             try {
                 const { offset, limit } = request.query;
-                return Projects.find()
+                const resultProjects = await Projects.find()
                     .sort({ createdAt: 'asc' })
                     .skip(offset)
                     .limit(limit)
+                return resultProjects
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar os projetos')
+                // return Boom.wrap(err, 400, 'Erro ao buscar os projetos')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -45,7 +50,10 @@ module.exports = [
                 return result
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto desejado')
+                // return Boom.wrap(err, 400, 'Erro ao buscar projeto desejado')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -63,16 +71,21 @@ module.exports = [
     {
         method: 'GET',
         path: '/projects/toprated',
-        handler: (request, h) => {
+        handler: async (request, h) => {
             try {
                 const { offset, limit } = request.query;
-                return Projects.find()
+                const resultTopRated = await Projects.find()
                     .sort({ likes: 'desc' })
                     .skip(offset)
                     .limit(limit)
+
+                return resultTopRated
             }
             catch (err) {
-                return Boom.wrap(err, 400, "Erro ao buscar os 'Top Rated Projects'")
+                // return Boom.wrap(err, 400, "+Erro ao buscar os 'Top Rated Projects'")
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -91,15 +104,19 @@ module.exports = [
     {
         method: 'GET',
         path: '/projects/user/{userId}',
-        handler: (request, h) => {
+        handler: async (request, h) => {
             try {
                 const { userId } = request.params
-                return Projects.find({ userId: userId })
+                const resultProjects = await Projects.find({ userId: userId })
                     .sort({ dtcriacao: 'asc' })
                     .limit(1)
+                return resultProjects
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar o projeto de um usuario especifico')
+                // return Boom.wrap(err, 400, 'Erro ao buscar o projeto de um usuario especifico')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -125,10 +142,13 @@ module.exports = [
                     project.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
                 }
 
-                return Projects.create(project)
+                return await Projects.create(project)
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                // return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -163,7 +183,10 @@ module.exports = [
                 return result
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                // return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -203,7 +226,10 @@ module.exports = [
                 return result
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                // return Boom.wrap(err, 400, 'Erro ao buscar projeto')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {

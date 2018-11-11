@@ -11,6 +11,7 @@ const HapiJwt = require('hapi-auth-jwt2')
 const Vision = require('vision')
 const Inert = require('inert')
 const HapiSwagger = require('hapi-swagger')
+const Logs = require('./util/logs')
 
 const swaggerConfig = {
     info: {
@@ -50,6 +51,10 @@ async function start() {
                 algorithms: ['HS256']
             },
             validate: (data, request, callback) => {
+
+                Logs.logRequest(request.path, Logs.obterDadoRequest(request, data.username))
+                Logs.info(`Token: ${JSON.stringify(data)} em ${new Date().toISOString()}`)
+
                 return {
                     isValid: true
                 }
@@ -63,9 +68,9 @@ async function start() {
         server.route(routes)
 
         await server.start()
-        console.log(`Server running in ${server.info.uri}`)
+        Logs.info(`Server running in ${server.info.uri}`)
     } catch (err) {
-        console.log(err)
+        Logs.error(err)
         process.exit(1)
     }
 }

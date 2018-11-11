@@ -8,24 +8,22 @@ module.exports = [
     {
         method: 'POST',
         path: '/following/{userId}',
-        handler: (request, response) => {
+        handler: async (request, h) => {
             try {
                 const { userId } = request.params
                 const follow = request.payload
 
-                Following.findOneAndUpdate({ _id: userId },
-                    {
-                        $addToSet: { following: follow }
-                    },
-                    { upsert: true }, (error, doc) => {
-                        if (error)
-                            return response(Boom.wrap(error, 400, 'Erro ao seguir'))
+                const result = await Following.findOneAndUpdate({ _id: userId },
+                    { $addToSet: { following: follow } },
+                    { upsert: true })
 
-                        return doc
-                    })
+                return result
             }
-            catch (error) {
-                console.error(error)
+            catch (err) {
+                // console.error(error)
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
         },
@@ -57,8 +55,11 @@ module.exports = [
 
                 return timeline
             }
-            catch (error) {
-                console.error(error)
+            catch (err) {
+                // console.error(error)
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
         },

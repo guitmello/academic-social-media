@@ -3,6 +3,7 @@ const Posts = require('../models/Posts')
 const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
 const imgFunctions = require('../util/imgFunctions')
+const Logs = require('../util/logs')
 
 module.exports = [
     {
@@ -19,10 +20,13 @@ module.exports = [
                     posts.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
                 }
 
-                return Posts.create(posts)
+                return await Posts.create(posts)
             }
             catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao tentar inserir a postagem')
+                // return Boom.wrap(err, 400, 'Erro ao tentar inserir a postagem')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -60,15 +64,18 @@ module.exports = [
     {
         method: 'GET',
         path: '/posts',
-        handler: (request, response) => {
+        handler: async (request, h) => {
             const { offset, limit } = request.query
             try {
-                return Posts.find()
+                return await Posts.find()
                     .sort({ createdAt: 'desc' })
                     .skip(offset)
                     .limit(limit)
-            } catch (error) {
-                return Boom.wrap(error, 400, 'Erro ao buscar as postagens')
+            } catch (err) {
+                // return Boom.wrap(error, 400, 'Erro ao buscar as postagens')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
 
         },
@@ -88,18 +95,21 @@ module.exports = [
     {
         method: 'GET',
         path: '/posts/{id}',
-        handler: (request, response) => {
+        handler: async (request, h) => {
 
             try {
-                const result = Posts.findById({ _id: request.params.id })
+                const result = await Posts.findById({ _id: request.params.id })
 
                 if (!result)
                     return Boom.notFound()
 
                 return result
 
-            } catch (error) {
-                return response(Boom.wrap(err, 400, 'Erro ao buscar a postagem desejada'))
+            } catch (err) {
+                // return response(Boom.wrap(err, 400, 'Erro ao buscar a postagem desejada'))
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
 
         },
@@ -118,17 +128,20 @@ module.exports = [
     {
         method: 'PATCH',
         path: '/posts/{id}',
-        handler: async (request, response) => {
+        handler: async (request, h) => {
             try {
-                const result = Posts.updateOne({ _id: request.params.id },
+                const result = await Posts.updateOne({ _id: request.params.id },
                     { $set: request.payload })
                 if (result.n === 0) {
                     return Boom.notFound()
                 }
                 return result
             }
-            catch (error) {
-                return Boom.wrap(error, 400, 'Erro ao salvar a postagem')
+            catch (err) {
+                // return Boom.wrap(error, 400, 'Erro ao salvar a postagem')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         }
         ,
@@ -155,10 +168,10 @@ module.exports = [
     {
         method: 'DELETE',
         path: '/posts/{id}',
-        handler: (request, response) => {
+        handler: async (request, h) => {
 
             try {
-                const result = Posts.deleteOne({ _id: request.params.id })
+                const result = await Posts.deleteOne({ _id: request.params.id })
 
                 if (result.n === 0) {
                     return Boom.notFound();
@@ -166,8 +179,11 @@ module.exports = [
 
                 return result
             }
-            catch (error) {
-                return Boom.wrap(err, 400, 'Erro ao deletar a postagem')
+            catch (err) {
+                // return Boom.wrap(err, 400, 'Erro ao deletar a postagem')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -185,10 +201,10 @@ module.exports = [
     {
         method: 'GET',
         path: '/posts/projects/{projectId}',
-        handler: (request, response) => {
+        handler: async (request, h) => {
             const { offset, limit } = request.query;
             try {
-                const result = Posts.find({ projectId: request.params.projectId })
+                const result = await Posts.find({ projectId: request.params.projectId })
                     .sort({ createdAt: 'desc' })
                     .skip(offset)
                     .limit(limit)
@@ -198,8 +214,11 @@ module.exports = [
                 }
                 return result
 
-            } catch (error) {
-                return Boom.wrap(err, 400, 'Erro ao buscar as postagens do projeto')
+            } catch (err) {
+                // return Boom.wrap(err, 400, 'Erro ao buscar as postagens do projeto')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
 
         },
@@ -223,10 +242,10 @@ module.exports = [
 
         method: 'GET',
         path: '/posts/users/{userId}',
-        handler: (request, response) => {
+        handler: async (request, response) => {
             try {
                 const { offset, limit } = request.query
-                const result = Posts.find({ userId: request.params.userId })
+                const result = await Posts.find({ userId: request.params.userId })
                     .sort({ createdAt: 'desc' })
                     .skip(offset)
                     .limit(limit);
@@ -236,8 +255,11 @@ module.exports = [
 
                 return result
 
-            } catch (error) {
-                return response(Boom.wrap(err, 400, 'Erro ao buscar as postagens do usuário'))
+            } catch (err) {
+                // return response(Boom.wrap(err, 400, 'Erro ao buscar as postagens do usuário'))
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -259,17 +281,20 @@ module.exports = [
     {
         method: 'POST',
         path: '/posts/{id}/comentarios',
-        handler: (request, response) => {
+        handler: async (request, h) => {
 
             try {
-                const result = Posts.updateOne({ _id: request.params.id }, { $push: { comments: request.payload } })
-                console.log('entrou aqui', result)
+                const result = await Posts.updateOne({ _id: request.params.id }, { $push: { comments: request.payload } })
+
                 if (result.n === 0)
                     return Boom.notFound()
 
                 return result
-            } catch (error) {
-                return Boom.wrap(err, 400, 'Erro ao salvar comentário da postagem')
+            } catch (err) {
+                // return Boom.wrap(err, 400, 'Erro ao salvar comentário da postagem')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -295,7 +320,7 @@ module.exports = [
     {
         method: 'GET',
         path: '/posts/{id}/comentarios',
-        handler: async (request, response) => {
+        handler: async (request, h) => {
             try {
                 const { offset, limit } = request.query
                 const doc = await Posts.findOne({ _id: request.params.id }).sort({ createdAt: 'asc' })
@@ -308,7 +333,10 @@ module.exports = [
                     return Boom.notFound()
                 }
             } catch (err) {
-                return Boom.wrap(err, 400, 'Erro ao buscar os comentarios da postagem')
+                // return Boom.wrap(err, 400, 'Erro ao buscar os comentarios da postagem')
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {

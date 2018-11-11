@@ -2,29 +2,28 @@ const Boom = require('boom')
 const Followers = require('../models/Followers')
 const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
+const Logs = require('../util/logs')
 
 module.exports = [
     {
         method: 'POST',
         path: '/followers/{userId}',
-        handler: (request, response) => {
+        handler: async (request, h) => {
             try {
                 const { userId } = request.params
                 const follower = request.payload
 
-                Followers.findOneAndUpdate({ _id: userId },
-                    {
-                        $addToSet: { followers: follower }
-                    },
-                    { upsert: true }, (error, doc) => {
-                        if (error)
-                            return response(Boom.wrap(error, 400, 'Erro ao adicionar seguidor'))
+                const result = await Followers.findOneAndUpdate({ _id: userId },
+                    { $addToSet: { followers: follower } },
+                    { upsert: true })
 
-                        return doc
-                    })
+                return result
             }
-            catch (error) {
-                console.error(error)
+            catch (err) {
+                // console.error(error)
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
 
