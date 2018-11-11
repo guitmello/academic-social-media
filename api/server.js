@@ -24,7 +24,14 @@ async function start() {
     try {
         const server = new Hapi.Server({
             host: 'localhost',
-            port: environment.server.port
+            port: environment.server.port,
+            //configuracao para a API ser aberta a todos os sites
+            routes: {
+                //TODO setar a url da origem correta, pois com * libera pra todos
+                cors: {
+                    origin: ['*']
+                }
+            }
         })
 
         await server.register([
