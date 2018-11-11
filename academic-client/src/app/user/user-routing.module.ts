@@ -4,6 +4,7 @@ import { UserAddEditComponent } from './user-add-edit/user-add-edit.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
+  { path: '', component: UserAddEditComponent },
   { path: ':id', component: UserAddEditComponent },
   { path: 'profile/:id', component: UserProfileComponent },
 ];

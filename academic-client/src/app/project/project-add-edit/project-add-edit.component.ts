@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../shared/post/post.service';
-import { Post } from '../../shared/post/post.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ProjectService } from '../project.service';
 
 @Component({
   selector: 'app-project-add-edit',
@@ -13,12 +12,12 @@ export class ProjectAddEditComponent implements OnInit {
 
   isCreating = true;
 
-  post: Post;
+  project: Project;
 
   projectForm: FormGroup;
 
   constructor(
-    private postService: PostService,
+    private projectService: ProjectService,
     private router: Router,
     private activatedRouted: ActivatedRoute
   ) { }
@@ -34,6 +33,30 @@ export class ProjectAddEditComponent implements OnInit {
       projectProgress: new FormControl('', {
         validators: [Validators.required]
       }),
+    });
+  }
+
+  createOrUpdate() {
+    if (this.isCreating) {
+      this.createProject(this.project);
+    } else {
+      this.updateProject(this.project);
+    }
+  }
+
+  createProject(project: Project) {
+    this.projectService.createProject(project).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  updateProject(project: Project) {
+    this.projectService.updateProject(project).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.error(error);
     });
   }
 }

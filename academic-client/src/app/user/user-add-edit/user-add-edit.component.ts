@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { User } from '../user.model';
 import { Observable } from 'rxjs/observable';
 
 @Component({
@@ -12,10 +11,27 @@ import { Observable } from 'rxjs/observable';
 })
 export class UserAddEditComponent implements OnInit {
 
+  user: User = {
+    name: '',
+    cpf: '',
+    email: '',
+    photo: '',
+    gender: '',
+    phone: '',
+    birthDate: '',
+    password: '',
+    area: '',
+  };
+
   areaArray = [
     'Arquitetura',
     'Medicina',
     'TI',
+  ];
+
+  genderArray = [
+    'Masculino',
+    'Feminino'
   ];
 
   minDate = new Date(1990, 1, 1);
@@ -27,7 +43,6 @@ export class UserAddEditComponent implements OnInit {
   isCreating = true;
 
   userForm: FormGroup;
-  user: User;
 
   constructor(
     private userService: UserService,
@@ -49,7 +64,13 @@ export class UserAddEditComponent implements OnInit {
       birthDate: new FormControl('', {
         validators: [Validators.required]
       }),
-      professionalArea: new FormControl('', {
+      phone: new FormControl('', {
+        validators: [Validators.required]
+      }),
+      gender: new FormControl('', {
+        validators: [Validators.required]
+      }),
+      area: new FormControl('', {
         validators: [Validators.required]
       }),
       password: new FormControl('', {
@@ -59,6 +80,7 @@ export class UserAddEditComponent implements OnInit {
         validators: [Validators.required]
       })
     }, {validators: [this.equalsTo], updateOn: 'change'});
+
   }
 
   // Photo Upload
@@ -98,6 +120,18 @@ export class UserAddEditComponent implements OnInit {
   }
 
   createOrUpdate() {
+    const fotobase64 = (<HTMLInputElement>document.getElementById('imgupload')).getAttribute('base64-value');
+
+    if (!fotobase64) {
+      if (this.user.gender = 'Masculino') {
+        this.user.photo = btoa('../../assets/images/user-m-photo.png');
+      } else {
+        this.user.photo = btoa('../../assets/images/user-f-photo.png');
+      }
+    } else {
+      this.user.photo = fotobase64;
+    }
+
     if (this.isCreating) {
       this.createUser(this.user);
     } else {

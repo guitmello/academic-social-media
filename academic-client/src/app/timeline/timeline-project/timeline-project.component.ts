@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-timeline-project',
@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimelineProjectComponent implements OnInit {
   // dado mockado
-  post = {
+
+  @Output() post = {
     user: {
       name:  'Avatar',
       photo: 'https://observatoriodocinema.bol.uol.com.br/wp-content/uploads/2017/12/8-avatar.jpg'

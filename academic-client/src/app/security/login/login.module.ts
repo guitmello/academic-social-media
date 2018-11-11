@@ -12,7 +12,6 @@ import {
   MatIconModule,
   MatInputModule
 } from '@angular/material';
-import { LoginService } from './login.service';
 
 @NgModule({
   imports: [
@@ -24,13 +23,10 @@ import { LoginService } from './login.service';
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
   ],
   declarations: [
     LoginComponent
   ],
-  exports: [
-    LoginService
-  ]
 })
 export class LoginModule { }

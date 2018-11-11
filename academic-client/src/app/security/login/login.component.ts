@@ -30,4 +30,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  login() {
+    this.loginService
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe(user => {
+        this.router.navigate(['/home']);
+      }, error => {
+        // SNACKBAR
+      });
+    }
+
 }

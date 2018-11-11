@@ -3,18 +3,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-
-import { LoginService } from './security/login/login.service';
-import { UserService } from './user/user.service';
+import { SharedModule } from './shared/shared.module';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
-import { SharedModule } from './shared/shared.module';
+import { ProfileModule } from './profile/profile.module';
+import { PostModule } from './post/post.module';
+import { TimelineModule } from './timeline/timeline.module';
 import { ProjectModule } from './project/project.module';
-ProjectModule
-
 
 @NgModule({
   declarations: [
@@ -25,10 +23,13 @@ ProjectModule
   ],
   imports: [
     BrowserModule,
-    SharedModule,
+    ProfileModule,
+    PostModule,
+    TimelineModule,
     ProjectModule,
+    SharedModule.forRoot(),
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {
   MatCardModule,
@@ -16,17 +16,15 @@ import {
   MatProgressBarModule,
   MatTabsModule,
   MatDatepickerModule,
-  MatDividerModule
+  MatDividerModule,
+  MatListModule
 } from '@angular/material';
-import { ProfileDashComponent } from './profile/profile-dash/profile-dash.component';
-import { ProfileHeaderComponent } from './profile/profile-header/profile-header.component';
-import { TopRatedProject } from './top-rated-project/top-rated-project.component';
-import { TimelineProjectComponent } from './timeline/timeline-project/timeline-project.component';
-import { TimelinePostsComponent } from './timeline/timeline-posts/timeline-posts.component';
+
 import { RouterModule } from '@angular/router';
-import { PostDetailsComponent } from './post/post-details/post-details.component';
-import { NewPostComponent } from './post/new-post/new-post.component';
-import { PostService } from './post/post.service';
+import { AuthInterceptor } from '../security/auth.interceptor';
+import { AuthGuard } from '../security/auth.guard';
+import { LoginService } from '../security/login/login.service';
+
 
 @NgModule({
   imports: [
@@ -46,25 +44,11 @@ import { PostService } from './post/post.service';
     MatProgressBarModule,
     MatOptionModule,
     MatNativeDateModule,
-    MatDividerModule
+    MatDividerModule,
+    MatListModule
   ],
-  declarations: [
-    ProfileDashComponent,
-    ProfileHeaderComponent,
-    TopRatedProject,
-    TimelineProjectComponent,
-    TimelinePostsComponent,
-    PostDetailsComponent,
-    NewPostComponent
-  ],
+  declarations: [],
   exports: [
-    ProfileDashComponent,
-    ProfileHeaderComponent,
-    TopRatedProject,
-    TimelineProjectComponent,
-    TimelinePostsComponent,
-    PostDetailsComponent,
-    NewPostComponent,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -80,11 +64,19 @@ import { PostService } from './post/post.service';
     MatProgressBarModule,
     MatOptionModule,
     MatNativeDateModule,
-    MatDividerModule
+    MatDividerModule,
+    MatListModule
   ],
-  providers: [
-    
-
-  ]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+        ngModule: SharedModule,
+        providers: [
+            AuthGuard,
+            {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+            LoginService
+        ]
+    };
+  }
+}
