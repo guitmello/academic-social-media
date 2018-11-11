@@ -6,6 +6,7 @@ const createToken = require('../util/token')
 const Users = require('../models/users')
 const { validCreateUser, verifyCredentials } = require('../util/userFunctions')
 const validateHeader = require('../util/validateHeader')
+const imgFunctions = require('../util/imgFunctions')
 
 const bcryptAsPromise = promisify(bcrypt.hash)
 
@@ -23,7 +24,7 @@ module.exports = [
                 }
 
                 const token = await createToken(result)
-                
+
                 return { user: result, token }
             } catch (error) {
                 return Boom.internal(error)
@@ -95,8 +96,15 @@ module.exports = [
             try {
                 const user = request.payload;
                 user.password = await bcryptAsPromise(user.password, 10)
+                if (user.photo) {
+                    const data = imgFunctions.base64ToPNG(user.photo) //formata o base64 
+                    const pathPhoto = imgFunctions.generateFileName() //gera uma string pra usar como nome da foto
+                    await imgFunctions.savePNGToDisk(data, `${__dirname}/..${pathPhoto}`) //salva o base64 em disco com o novo nome da foto
+                    user.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
+                }
                 return Users.create(user)
             } catch (error) {
+                console.error('Erro em: ', error)
                 return Boom.internal()
             }
         },
@@ -118,6 +126,13 @@ module.exports = [
 
                 if (user.password)
                     user.password = await bcryptAsPromise(user.password, 10);
+
+                if (user.photo) {
+                    const data = imgFunctions.base64ToPNG(user.photo) //formata o base64 
+                    const pathPhoto = imgFunctions.generateFileName() //gera uma string pra usar como nome da foto
+                    await imgFunctions.savePNGToDisk(data, `${__dirname}/..${pathPhoto}`) //salva o base64 em disco com o novo nome da foto
+                    user.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
+                }
 
                 return Users.updateOne({ _id: request.params.id }, { $set: user })
 

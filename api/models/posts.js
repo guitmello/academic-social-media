@@ -4,7 +4,7 @@ const Schema = Mongoose.Schema;
 const PostSchema = new Schema({
 
     user: {
-        userId: {
+        _id: {
             type: Schema.Types.ObjectId,
             ref: 'Users',
             required: true
@@ -13,7 +13,7 @@ const PostSchema = new Schema({
             type: String,
             required: true
         },
-        photo:{
+        photo: {
             type: String,
             requeired: true
         }
@@ -42,14 +42,14 @@ const PostSchema = new Schema({
                 type: String,
             },
             user: {
-                userId: {
+                _id: {
                     type: Schema.Types.ObjectId,
                     ref: 'Users',
                 },
                 name: {
                     type: String
                 },
-                photo:{
+                photo: {
                     type: String
                 }
             },

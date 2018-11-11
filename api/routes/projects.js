@@ -2,6 +2,7 @@ const Boom = require('boom')
 const Projects = require('../models/Projects')
 const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
+const imgFunctions = require('../util/imgFunctions')
 
 module.exports = [
     {
@@ -71,7 +72,7 @@ module.exports = [
                     .limit(limit)
             }
             catch (err) {
-                return Boom.wrap(err, 400, "Erro ao buscar os 'Top Rated Projects'" )
+                return Boom.wrap(err, 400, "Erro ao buscar os 'Top Rated Projects'")
             }
         },
         config: {
@@ -117,6 +118,13 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const project = request.payload;
+                if (project.photo) {
+                    const data = imgFunctions.base64ToPNG(project.photo) //formata o base64 
+                    const pathPhoto = imgFunctions.generateFileName() //gera uma string pra usar como nome da foto
+                    await imgFunctions.savePNGToDisk(data, `${__dirname}/..${pathPhoto}`) //salva o base64 em disco com o novo nome da foto
+                    project.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
+                }
+
                 return Projects.create(project)
             }
             catch (err) {
@@ -177,7 +185,7 @@ module.exports = [
                 }
             }
         }
-        
+
     }
     ,
     {

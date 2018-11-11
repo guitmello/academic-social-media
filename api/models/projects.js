@@ -31,7 +31,8 @@ var ProjectsSchema = new Schema({
         min: [0, 'O mínimo de curtidas é 0']
     },
     photo: {
-        type: String
+        type: String,
+        default: '/img/default-project.PNG'
     }
 });
 

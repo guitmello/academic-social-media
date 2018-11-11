@@ -2,15 +2,23 @@ const Boom = require('boom')
 const Posts = require('../models/Posts')
 const validateHeader = require('../util/validateHeader')
 const Joi = require('joi')
+const imgFunctions = require('../util/imgFunctions')
 
 module.exports = [
     {
         method: 'POST',
         path: '/posts',
-        handler: (request, h) => {
+        handler: async (request, h) => {
 
             try {
                 const posts = request.payload;
+                if (posts.photo) {
+                    const data = imgFunctions.base64ToPNG(posts.photo) //formata o base64 
+                    const pathPhoto = imgFunctions.generateFileName() //gera uma string pra usar como nome da foto
+                    await imgFunctions.savePNGToDisk(data, `${__dirname}/..${pathPhoto}`) //salva o base64 em disco com o novo nome da foto
+                    posts.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
+                }
+
                 return Posts.create(posts)
             }
             catch (err) {
@@ -24,7 +32,7 @@ module.exports = [
                 headers: validateHeader(),
                 payload: {
                     user: Joi.object().keys({
-                        userId: Joi.string().required(),
+                        _id: Joi.string().required(),
                         name: Joi.string().required(),
                         photo: Joi.string().required()
                     }),
@@ -35,13 +43,14 @@ module.exports = [
                     photo: Joi.string(),
                     comments: [{
                         user: Joi.object().keys(
-                        {
-                            name: Joi.string(),
-                            userId: Joi.string(),                            
-                        }),
+                            {
+                                name: Joi.string(),
+                                _id: Joi.string(),
+                                photo: Joi.string()
+                            }),
                         createdAt: Joi.date(),
                         content: Joi.string(),
-                        
+
                     }]
                 }
             }
@@ -133,9 +142,7 @@ module.exports = [
                     likes: Joi.number(),
                     photo: Joi.string(),
                     comments: {
-                        name: Joi.string(),
-                        userId: Joi.string(),
-                        createdAt: Joi.date()
+                        content: Joi.string()
                     }
                 },
                 params: {
@@ -255,24 +262,24 @@ module.exports = [
         handler: (request, response) => {
 
             try {
-                    const result =  Posts.updateOne({ _id: request.params.id }, { $push: { comments: request.payload }})  
+                const result = Posts.updateOne({ _id: request.params.id }, { $push: { comments: request.payload } })
                 console.log('entrou aqui', result)
-                    if (result.n === 0)
+                if (result.n === 0)
                     return Boom.notFound()
 
-                    return result
+                return result
             } catch (error) {
                 return Boom.wrap(err, 400, 'Erro ao salvar comentário da postagem')
             }
         },
-        config: {            
+        config: {
             tags: ['api'],
             description: 'Rota para cadastrar comentarios em uma postagem',
-            validate: {     
-                headers: validateHeader(),     
+            validate: {
+                headers: validateHeader(),
                 params: {
                     id: Joi.string().required()
-                },      
+                },
                 payload: {
                     content: Joi.string().required(),
                     user: Joi.object().keys({
@@ -291,7 +298,7 @@ module.exports = [
         handler: async (request, response) => {
             try {
                 const { offset, limit } = request.query
-                const doc = await Posts.findOne({ _id: request.params.id }).sort({createdAt: 'asc'})
+                const doc = await Posts.findOne({ _id: request.params.id }).sort({ createdAt: 'asc' })
 
                 if (doc.comments[0]) {
                     const comentarios = doc.comments.splice(offset, limit)
@@ -304,7 +311,7 @@ module.exports = [
                 return Boom.wrap(err, 400, 'Erro ao buscar os comentarios da postagem')
             }
         },
-        config: {            
+        config: {
             tags: ['api'],
             description: 'Rota para buscar e listar todos os comentarios de uma postagem',
             validate: {
