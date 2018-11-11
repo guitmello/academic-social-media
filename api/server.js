@@ -71,7 +71,7 @@ async function start() {
         Logs.info(`Server running in ${server.info.uri}`)
     } catch (err) {
         Logs.error(err)
-        process.exit(1)
+        // process.exit(1)
     }
 }
 
