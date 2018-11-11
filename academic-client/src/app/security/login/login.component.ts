@@ -48,9 +48,8 @@ export class LoginComponent implements OnInit {
             }
           }
         });
-        this.loginService.isLoggedIn();
         localStorage.setItem('token', user.token);
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/');
       }, error => {
         // SNACKBAR
       });

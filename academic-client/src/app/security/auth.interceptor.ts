@@ -4,6 +4,7 @@ import { Injectable, Injector } from '@angular/core';
 import { LoginService } from './login/login.service';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../store/auth.reducer';
+import { pluck } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -12,14 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private injector: Injector, private store: Store<AuthState>) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const loginService = this.injector.get(LoginService);
-        this.store.select('user').subscribe(response => {
-            if (response) {
-                this.token = response.token;
-            } else {
-            }
-        });
-
+        this.token = localStorage.getItem('token');
         if (this.token) {
             const authRequest = request.clone({setHeaders: {'Authorization': `${this.token}`}});
             return next.handle(authRequest);

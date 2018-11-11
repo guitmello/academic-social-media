@@ -8,8 +8,10 @@ import { TimelinePostsComponent } from './timeline/timeline-posts/timeline-posts
 import { LoginComponent } from './security/login/login.component';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/home/', pathMatch: 'full', canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/', pathMatch: 'full', canActivate: [AuthGuard], },
+  // { path: '/home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'home', component: TimelineViewComponent, children: [
+    {path: '', redirectTo: 'posts', pathMatch: 'full'},
     {path: 'posts', component: TimelinePostsComponent, canActivate: [AuthGuard]},
     {path: 'project/:id', component: TimelineProjectComponent, canActivate: [AuthGuard]}
   ], canActivate: [AuthGuard] },

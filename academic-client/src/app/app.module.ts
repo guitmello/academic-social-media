@@ -10,10 +10,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { ProfileModule } from './profile/profile.module';
-import { TimelineModule } from './timeline/timeline.module';
 import { LoginComponent } from './security/login/login.component';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth.reducer';
+import { TimelineViewComponent } from './timeline/timeline-view/timeline-view.component';
+import { TimelinePostsComponent } from './timeline/timeline-posts/timeline-posts.component';
+import { TimelineProjectComponent } from './timeline/timeline-project/timeline-project.component';
+import { PostModule } from './post/post.module';
+import { ProjectModule } from './project/project.module';
 
 @NgModule({
   declarations: [
@@ -21,12 +25,16 @@ import { authReducer } from './store/auth.reducer';
     NotFoundComponent,
     HeaderComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    TimelineViewComponent,
+    TimelinePostsComponent,
+    TimelineProjectComponent
   ],
   imports: [
     BrowserModule,
     ProfileModule,
-    TimelineModule,
+    PostModule,
+    ProjectModule,
     SharedModule.forRoot(),
     StoreModule.forRoot(
       {user: authReducer}
