@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/observable';
@@ -17,7 +17,7 @@ export class LoginService {
     private http: HttpClient
   ) { }
 
-  isLoggedIn(bool) {
+  isLoggedIn() {
     return true;
   }
 

@@ -75,8 +75,8 @@ export class SharedModule {
         ngModule: SharedModule,
         providers: [
             AuthGuard,
+            LoginService,
             {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-            LoginService
         ]
     };
   }

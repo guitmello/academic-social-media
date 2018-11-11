@@ -29,7 +29,7 @@ import { authReducer } from './store/auth.reducer';
     TimelineModule,
     SharedModule.forRoot(),
     StoreModule.forRoot(
-      {auth: authReducer}
+      {user: authReducer}
     ),
     BrowserAnimationsModule,
     AppRoutingModule,

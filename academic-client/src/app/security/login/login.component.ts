@@ -4,6 +4,7 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth.reducer';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,6 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe(user => {
-        alert(user);
         this.store.dispatch({
           type: 'SET_USER',
           payload: {
@@ -48,8 +48,9 @@ export class LoginComponent implements OnInit {
             }
           }
         });
+        this.loginService.isLoggedIn();
         localStorage.setItem('token', user.token);
-        this.router.navigate(['/home']);
+        this.router.navigateByUrl('/home');
       }, error => {
         // SNACKBAR
       });
