@@ -1,0 +1,10 @@
+{"message":"Server running in http://localhost:8081","level":"info"}
+{"message":"Server running in http://localhost:8081","level":"info"}
+{"message":"A URL acessada foi /users com os parâmetros {\"path\":\"/users\",\"query\":{},\"payload\":null,\"params\":{},\"host\":\"localhost:8081\",\"username\":\"\",\"at\":\"2018-11-11T17:20:03.709Z\"}","level":"info"}
+{"message":"Token: {\"id\":\"5be7c326e0f8724aa8060f1d\",\"email\":\"vitu@email.com\",\"iat\":1541954307,\"exp\":1541957907} em 2018-11-11T17:20:03.711Z","level":"info"}
+{"message":"Server running in http://localhost:8081","level":"info"}
+{"message":"Server running in http://localhost:8081","level":"info"}
+{"message":"Server running in http://localhost:8081","level":"info"}
+{"message":"A URL acessada foi /users/123123 com os parâmetros {\"path\":\"/users/123123\",\"query\":{},\"payload\":null,\"params\":{\"id\":\"123123\"},\"host\":\"localhost:8081\",\"username\":\"\",\"at\":\"2018-11-11T18:11:06.784Z\"}","level":"info"}
+{"message":"Token: {\"id\":\"5be7c326e0f8724aa8060f1d\",\"email\":\"vitu@email.com\",\"iat\":1541959845,\"exp\":1541963445} em 2018-11-11T18:11:06.785Z","level":"info"}
+{"message":"Erro em: /users/123123 com os parâmetros {\"path\":\"/users/123123\",\"query\":{},\"payload\":null,\"params\":{\"id\":\"123123\"},\"host\":\"localhost:8081\",\"username\":\"\",\"at\":\"2018-11-11T18:11:06.794Z\",\"err\":{\"message\":\"Cast to ObjectId failed for value \\\"123123\\\" at path \\\"_id\\\" for model \\\"Users\\\"\",\"name\":\"CastError\",\"stringValue\":\"\\\"123123\\\"\",\"kind\":\"ObjectId\",\"value\":\"123123\",\"path\":\"_id\"}}","level":"error"}

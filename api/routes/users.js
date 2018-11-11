@@ -7,6 +7,7 @@ const Users = require('../models/users')
 const { validCreateUser, verifyCredentials } = require('../util/userFunctions')
 const validateHeader = require('../util/validateHeader')
 const imgFunctions = require('../util/imgFunctions')
+const Logs = require('../util/logs')
 
 const bcryptAsPromise = promisify(bcrypt.hash)
 
@@ -25,11 +26,14 @@ module.exports = [
 
                 const token = await createToken(result)
 
-                const {_id,name,createdAt, area,photo,gender,birthDate,cpf} = result                
-                
-                return { name,_id,email,createdAt, area,photo,gender,birthDate,cpf, token }
-            } catch (error) {
-                return Boom.internal(error)
+                const { _id, name, createdAt, area, photo, gender, birthDate, cpf } = result
+
+                return { name, _id, email, createdAt, area, photo, gender, birthDate, cpf, token }
+            } catch (err) {
+                // return Boom.internal(error)
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -50,12 +54,15 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const { offset, limit } = request.query
-                return Users.find()
+                return await Users.find()
                     .select("-password")
                     .skip(offset)
                     .limit(limit)
-            } catch (error) {
-                return Boom.internal(error)
+            } catch (err) {
+                // return Boom.internal(error)
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
             }
         },
         config: {
@@ -75,8 +82,11 @@ module.exports = [
         path: '/users/{id}',
         handler: async (request, h) => {
             try {
-                return Users.findOne({ _id: request.params.id }).select("-password")
-            } catch (error) {
+                return await Users.findOne({ _id: request.params.id }).select("-password")
+            } catch (err) {
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
         },
@@ -97,9 +107,9 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const user = request.payload;
-                const verifyEmail = Users.findOne({email: user.email})
-                if(verifyEmail) {
-                    
+                const verifyEmail = Users.findOne({ email: user.email })
+                if (verifyEmail) {
+
                     return ('Email ja cadastrado')
                 }
                 user.password = await bcryptAsPromise(user.password, 10)
@@ -109,9 +119,13 @@ module.exports = [
                     await imgFunctions.savePNGToDisk(data, `${__dirname}/..${pathPhoto}`) //salva o base64 em disco com o novo nome da foto
                     user.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
                 }
-                return Users.create(user)
-            } catch (error) {
-                console.error('Erro em: ', error)
+
+                return await Users.create(user)
+            } catch (err) {
+                // console.error('Erro em: ', error)
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
         },
@@ -141,9 +155,12 @@ module.exports = [
                     user.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
                 }
 
-                return Users.updateOne({ _id: request.params.id }, { $set: user })
+                return await Users.updateOne({ _id: request.params.id }, { $set: user })
 
-            } catch (error) {
+            } catch (err) {
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
         },
@@ -164,8 +181,11 @@ module.exports = [
         path: '/users/{id}',
         handler: async (request, h) => {
             try {
-                return Users.deleteOne({ _id: request.params.id })
-            } catch (error) {
+                return await Users.deleteOne({ _id: request.params.id })
+            } catch (err) {
+                // return Boom.internal()
+                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
         },
