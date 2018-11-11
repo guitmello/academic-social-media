@@ -15,16 +15,28 @@ export class ProjectService {
   constructor(
     private http: HttpClient
   ) { }
+  
+  getProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.API_URL}/projects`);
+  }
 
-  createUser(project: Project): Observable<Project> {
+  getTopRatedProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.API_URL}/rated-projects`);
+  }
+
+  getProject(project: Project): Observable<Project> {
+    return this.http.get<Project>(`${this.API_URL}/projects/${project._id}`);
+  }
+
+  createProject(project: Project): Observable<Project> {
     return this.http.post<Project>(`${this.API_URL}/projects`, project);
   }
 
-  updateUser(project: Project): Observable<Project> {
+  updateProject(project: Project): Observable<Project> {
     return this.http.post<Project>(`${this.API_URL}/projects/${project._id}`, project);
   }
 
-  deleteUser(project: Project): Observable<Project> {
+  deleteProject(project: Project): Observable<Project> {
     return this.http.delete<Project>(`${this.API_URL}/projects/${project._id}`);
   }
 
