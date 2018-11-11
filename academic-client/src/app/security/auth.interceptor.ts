@@ -10,9 +10,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const loginService = this.injector.get(LoginService);
-        if (loginService.isLoggedIn()) {
-            console.log('request');
-            const authRequest = request.clone({setHeaders: {'Authorization': loginService.user.token}});
+        if (loginService.isLoggedIn(true)) {
+            const authRequest = request.clone({setHeaders: {'Authorization': `jwt ${loginService.user.token}`}});
             return next.handle(authRequest);
         } else {
             return next.handle(request);
