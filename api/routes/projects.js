@@ -17,7 +17,7 @@ module.exports = [
                     .limit(limit)
             }
             catch (err) {
-                return response(Boom.wrap(err, 400, 'Erro ao buscar os projetos'))
+                return Boom.wrap(err, 400, 'Erro ao buscar os projetos')
             }
         },
         config: {

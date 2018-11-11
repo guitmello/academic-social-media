@@ -39,7 +39,7 @@ const userModel = new Schema({
         type: Date,
         required: true,
     },
-    created_at:
+    createdAt:
     {
         type: Date,
         default: Date()
