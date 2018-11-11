@@ -25,7 +25,9 @@ module.exports = [
 
                 const token = await createToken(result)
 
-                return { user: result, token }
+                const {_id,name,createdAt, area,photo,gender,birthDate,cpf} = result                
+                
+                return { name,_id,email,createdAt, area,photo,gender,birthDate,cpf, token }
             } catch (error) {
                 return Boom.internal(error)
             }
@@ -95,6 +97,11 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const user = request.payload;
+                const verifyEmail = Users.findOne({email: user.email})
+                if(verifyEmail) {
+                    
+                    return ('Email ja cadastrado')
+                }
                 user.password = await bcryptAsPromise(user.password, 10)
                 if (user.photo) {
                     const data = imgFunctions.base64ToPNG(user.photo) //formata o base64 
