@@ -107,11 +107,7 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const user = request.payload;
-                const verifyEmail = Users.findOne({ email: user.email })
-                if (verifyEmail) {
-
-                    return ('Email ja cadastrado')
-                }
+                
                 user.password = await bcryptAsPromise(user.password, 10)
                 if (user.photo) {
                     const data = imgFunctions.base64ToPNG(user.photo) //formata o base64 
