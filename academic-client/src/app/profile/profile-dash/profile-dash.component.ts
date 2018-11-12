@@ -43,9 +43,9 @@ export class ProfileDashComponent implements OnInit {
     this.projectService.getProjectUser(userId).subscribe(response => {
       const project = response[0];
       this.projectId = project ? project._id : null;
+      localStorage.setItem('project', JSON.stringify(project));
     });
 
-    localStorage.setItem('project', JSON.stringify(this.project));
   }
 
   goToProfile() {

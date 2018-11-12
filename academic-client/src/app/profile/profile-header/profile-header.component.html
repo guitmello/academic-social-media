@@ -19,7 +19,7 @@
       <h3 class="title-profHeader">Projeto: {{project?.name}}</h3>
       <p class="project-description">{{project?.description}} </p>
 
-      <mat-progress-bar mode="determinate" value="40" color="accent" style="background-color: #ccc"></mat-progress-bar>
+      <mat-progress-bar mode="determinate" [value]="project.loading" color="accent" style="background-color: #ccc"></mat-progress-bar>
 
       <button mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Projeto</button>
     </div>
