@@ -4,12 +4,14 @@ import { ProfileDashComponent } from './profile-dash/profile-dash.component';
 import { ProfileHeaderComponent } from './profile-header/profile-header.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProjectModule } from '../project/project.module';
+import { PostModule } from '../post/post.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    ProjectModule
+    ProjectModule,
+    PostModule
   ],
   declarations: [
     ProfileDashComponent,

@@ -22,12 +22,14 @@ export class LoginService {
   }
 
   login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.API_URL}login`, {email: email, password: password});
+    return this.http.post<User>(`${this.API_URL}login`, { email: email, password: password });
   }
 
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('user');
+    localStorage.removeItem('project');
     this.router.navigateByUrl('/login');
   }
 

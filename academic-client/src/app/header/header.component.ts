@@ -8,10 +8,12 @@ import { LoginService } from '../security/login/login.service';
 })
 export class HeaderComponent implements OnInit {
   search = '';
+  hide = false;
 
   constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+    this.hide = localStorage.getItem('token') ? true : false;
   }
 
   onSearch() {

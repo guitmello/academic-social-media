@@ -3,6 +3,7 @@ import { Profile } from 'selenium-webdriver/firefox';
 import { UserService } from '../../user/user.service';
 import { ProjectService } from '../../project/project.service';
 import { Router } from '@angular/router';
+import { PostService } from '../../post/post.service';
 
 @Component({
   selector: 'app-profile-header',
@@ -14,14 +15,22 @@ export class ProfileHeaderComponent implements OnInit {
   user: User;
   project: Project;
 
+  projectPosts = [];
+
   constructor(
-    private userService: UserService,
-    private projectService: ProjectService,
-    private router: Router
+    private postService: PostService
   ) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.project = localStorage.getItem('project') !== 'undefined' && JSON.parse(localStorage.getItem('project'));
+
+    this.getUserPosts(this.project._id);
+  }
+
+  getUserPosts(projectId) {
+    this.postService.getProjectPosts(projectId).subscribe(response => {
+      this.projectPosts = response;
+    });
   }
 }
