@@ -128,7 +128,7 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="pure-u-sm-1 pure-u-md-1-2">
+            <div *ngIf="isCreating" class="pure-u-sm-1 pure-u-md-1-2">
               <div class="form-control">
                 <mat-form-field>
                   <input
@@ -145,7 +145,7 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="pure-u-sm-1 pure-u-md-1-2">
+            <div *ngIf="isCreating" class="pure-u-sm-1 pure-u-md-1-2">
               <div class="form-control">
                 <mat-form-field>
                   <input

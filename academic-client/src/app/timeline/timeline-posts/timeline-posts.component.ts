@@ -27,13 +27,11 @@ export class TimelinePostsComponent implements OnInit {
 
     if (this.paramId && this.activatedRoute.snapshot.routeConfig.path === 'post') {
       this.getPost(this.paramId);
-      this.getNewPost(this.posts);
     } else if (this.paramId) {
       this.getUserPosts(this.paramId);
       this.getNewPost(this.posts);
     } else {
       this.getUserPosts(this.userId);
-      this.getNewPost(this.posts);
     }
   }
 
@@ -46,16 +44,14 @@ export class TimelinePostsComponent implements OnInit {
 
   getUserPosts(userId) {
     this.postService.getUserPosts(userId).subscribe(response => {
-      console.log(response);
       this.posts = response;
+      this.getNewPost(this.posts);
     });
   }
 
   getNewPost(posts) {
     return this.postService.newPost.subscribe(post => {
       posts.unshift(post);
-      console.log(posts);
-      console.log(post);
     });
   }
 

@@ -1,17 +1,16 @@
 <mat-card class="no-p card-profile">
   <div class="backgroundPicture">
-    <a [routerLink]="[ 'user/profile/', 1 ]">
-      <div class="cropedPhoto">
+      <div (click)="goToProfile()" class="cropedPhoto">
         <img src="https://meapaixonei.com.br/wp-content/uploads/2017/10/sinais-que-comprovam-que-voce-tem-se-tornado-uma-pessoa-melhor-a-cada-dia.jpg">
       </div>
-    </a>
   </div>
   <div class="otherInfos">
-    <h3>Sabrina Spellman</h3>
-    <p>Arquitetura e Urbanismo</p>
+    <h3>{{user?.name}}</h3>
+    <p>{{user?.area}}</p>
 
-    <app-project-info></app-project-info>
+    <app-project-info *ngIf="projectId" [projectId]="projectId"></app-project-info>
 
-    <button mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Porjeto</button>
+    <a *ngIf="projectId" [routerLink]="[ '/project/ce', projectId ]" mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Projeto</a>
+    <a *ngIf="!projectId" [routerLink]="[ '/project/ce' ]" mat-raised-button type="submit" color="primary" class="w-50 top-40">Adicionar Porjeto</a>
   </div>
 </mat-card>

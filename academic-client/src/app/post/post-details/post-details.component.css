@@ -26,22 +26,7 @@
   padding: 0 1em;
 }
 
-.post-details__header__user span {
-  width: 100%;
-  margin: 0;
-}
-
-.post-details__header__name {
-  font-size: .75em;
-  /* color: var(--dark-text-icons-color); */
-}
-
-.post-details__header__date {
-  font-size: .625em;
-  /* color: var(--middle-text-icons-color); */
-}
-
 .post-details__body {
-  font-size: .75em;
+  font-size: 1em;
   /* color: var(--middle-text-icons-color); */
 }

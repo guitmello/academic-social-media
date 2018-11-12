@@ -19,16 +19,20 @@ export class ProjectService {
     return this.http.get<Project[]>(`${this.API_URL}projects`);
   }
 
-  getProject(project: Project): Observable<Project> {
-    return this.http.get<Project>(`${this.API_URL}posts/projects/${project._id}`);
+  getProject(projectId): Observable<Project> {
+    return this.http.get<Project>(`${this.API_URL}projects/${projectId}`);
   }
 
   getTopRatedProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.API_URL}projects/toprated`);
   }
 
-  getProjectInfo(userId): Observable<Project> {
-    return this.http.get<Project>(`${this.API_URL}projects/${userId}`);
+  getProjectInfo(projecId): Observable<Project> {
+    return this.http.get<Project>(`${this.API_URL}projects/${projecId}`);
+  }
+
+  getProjectUser(userId): Observable<Project> {
+    return this.http.get<Project>(`${this.API_URL}projects/user/${userId}`);
   }
 
   createProject(project: Project): Observable<Project> {
@@ -36,7 +40,7 @@ export class ProjectService {
   }
 
   updateProject(project: Project): Observable<Project> {
-    return this.http.post<Project>(`${this.API_URL}projects/${project._id}`, project);
+    return this.http.patch<Project>(`${this.API_URL}projects/${project._id}`, project);
   }
 
   deleteProject(project: Project): Observable<Project> {
