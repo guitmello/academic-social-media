@@ -25,11 +25,17 @@ Para depurar localmente a API, dentro da pasta da mesma, digite o seguinte coman
 ```
 Uma instância no localhost iniciará conforme descrito no terminal.
 
-## Modelos de banco de dados
+## Banco de dados
+Existe um arquivo na raiz da api utilizado para popular o banco e poder realizar testes de maneira mais rápida.
+```
+    node seeds.js
+```
+
+## Modelagem
 
 Utilizamos 5 coleções para guardar os documentos utilizados na API e representar as entidades:
 
-### User
+### Users
 Coleção que guarda os dados do usuário.
 ```
 {
@@ -94,7 +100,7 @@ Coleção que guarda os seguidores (dentro de um array) de um usuário.
 ```
 
 ### Following
-Coleção que guarda, em um array, os usuário seguidor por um outro usuário
+Coleção que guarda, em um array, os usuários que são seguidos por um outro usuário (userId)
 ```
 {
     "userId": "ID do usuário que segue",

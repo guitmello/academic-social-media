@@ -15,7 +15,7 @@ export class TimelinePostsComponent implements OnInit {
 
   @Output() storeId: Observable<any>;
   paramId: string;
-  posts: Post[];
+  public posts: Post[] = [];
   @Output() post: Post;
 
   constructor(
@@ -31,10 +31,13 @@ export class TimelinePostsComponent implements OnInit {
 
     if (this.paramId && this.activatedRoute.snapshot.routeConfig.path === 'post') {
       this.getPost(this.paramId);
+      this.getNewPost(this.posts);
     } else if (this.paramId) {
       this.getUserPosts(this.paramId);
+      this.getNewPost(this.posts);
     } else {
       this.getUserId();
+      this.getNewPost(this.posts);
     }
 
   }
@@ -58,6 +61,13 @@ export class TimelinePostsComponent implements OnInit {
       return response.user.userId;
     }));
     this.storeId.subscribe(userId => this.getUserPosts(userId));
+  }
+
+  getNewPost(posts) {
+    return this.postService.newPost.subscribe(post => {
+      posts.unshift(post);
+      console.log(posts);
+    });
   }
 
 }
