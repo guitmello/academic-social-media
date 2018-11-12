@@ -10,19 +10,19 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-    constructor (
+    constructor(
         private loginService: LoginService,
         private store: Store<AuthState>,
         private router: Router
-    ) {}
+    ) { }
 
     canActivate(next: ActivatedRouteSnapshot): any {
-        return this.store.select('auth').pipe(map(response  => {
-                if (response.user.token == null || !localStorage.getItem('token')) {
-                    this.router.navigateByUrl('/login');
-                    return false;
-                }
-                return true;
+        return this.store.select('auth').pipe(map(response => {
+            if ((response && response.user && response.user.token == null) || !localStorage.getItem('token')) {
+                this.router.navigateByUrl('/login');
+                return false;
+            }
+            return true;
         }));
     }
 
