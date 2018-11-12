@@ -1,5 +1,10 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { PostService } from '../../post/post.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthState } from '../../store/auth.reducer';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-timeline-posts',
@@ -8,18 +13,51 @@ import { PostService } from '../../post/post.service';
 })
 export class TimelinePostsComponent implements OnInit {
 
+  @Output() storeId: Observable<any>;
+  paramId: string;
   posts: Post[];
   @Output() post: Post;
 
   constructor(
-    private postService: PostService
+    private postService: PostService,
+    private activatedRoute: ActivatedRoute,
+    private store: Store<AuthState>
   ) { }
 
   ngOnInit() {
-    this.postService.getUserPosts('5be7bb0d6fd346302c658f7a').subscribe(response => {
+    this.activatedRoute.params.subscribe( params => {
+      this.paramId = params.id;
+    });
+
+    if (this.paramId && this.activatedRoute.snapshot.routeConfig.path === 'post') {
+      this.getPost(this.paramId);
+    } else if (this.paramId) {
+      this.getUserPosts(this.paramId);
+    } else {
+      this.getUserId();
+    }
+
+  }
+
+  getPost(postId) {
+    this.postService.getPost(postId).subscribe(response => {
+      console.log(response);
+      this.post = response;
+    });
+  }
+
+  getUserPosts(userId) {
+    this.postService.getUserPosts(userId).subscribe(response => {
       console.log(response);
       this.posts = response;
     });
+  }
+
+  getUserId() {
+    this.storeId = this.store.select('auth').pipe(map(response  => {
+      return response.user.userId;
+    }));
+    this.storeId.subscribe(userId => this.getUserPosts(userId));
   }
 
 }

@@ -7,7 +7,6 @@ import { SharedModule } from './shared/shared.module';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { ProfileModule } from './profile/profile.module';
 import { LoginComponent } from './security/login/login.component';
@@ -24,7 +23,6 @@ import { ProjectModule } from './project/project.module';
     AppComponent,
     NotFoundComponent,
     HeaderComponent,
-    HomeComponent,
     LoginComponent,
     TimelineViewComponent,
     TimelinePostsComponent,
@@ -37,7 +35,7 @@ import { ProjectModule } from './project/project.module';
     ProjectModule,
     SharedModule.forRoot(),
     StoreModule.forRoot(
-      {user: authReducer}
+      {auth: authReducer}
     ),
     BrowserAnimationsModule,
     AppRoutingModule,

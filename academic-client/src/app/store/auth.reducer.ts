@@ -1,14 +1,15 @@
 export interface AuthState {
-    user: {
-        id: string,
-        name: string,
-        photo: string,
-        token: string
+    auth: {
+        user: {
+            userId: string,
+            name: string,
+            token: string
+        };
     };
 }
 
 const initialState = {
-    user: null,
+    auth: null,
 };
 
 export function authReducer(state = initialState, action: any) {
@@ -21,7 +22,7 @@ export function authReducer(state = initialState, action: any) {
             break;
         case 'LOGOUT':
             state = {
-                user: null,
+                auth: null,
             };
     }
     return state;
