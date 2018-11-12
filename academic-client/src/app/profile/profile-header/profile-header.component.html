@@ -10,8 +10,11 @@
     <h3>{{user?.name}}</h3>
     <p>{{user?.area}}</p>
 
-    <button mat-raised-button type="submit" color="primary" class="w-50">Mais Informações</button>
-    <button mat-raised-button type="submit" color="primary" class="w-50">Adicionar Projeto</button>
+
+    <a *ngIf="projectId" [routerLink]="[ '/project/ce', projectId ]" mat-raised-button type="submit" color="primary"
+      class="w-50 top-40">Atualizar Projeto</a>
+    <a *ngIf="!projectId" [routerLink]="[ '/project/ce' ]" mat-raised-button type="submit" color="primary" class="w-50 top-40">Adicionar
+      Projeto</a>
 
   </div>
   <div class="mainInfos">
