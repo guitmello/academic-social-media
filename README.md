@@ -15,7 +15,7 @@ git
 1. Navegue para uma nova pasta, de preferência vazia;
 2. Abra o git bash e clone o repositório `git clone https://github.com/guitmello/academic-social-media`
 3. Navegue para a pasta api e digite `npm i`
-4. Navegue para a pasta academic-social-media e digite `npm i`
+4. Navegue para a pasta academic-client e digite `npm i`
 
 # Depuração local
 
