@@ -27,15 +27,7 @@ export class AppComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token) {
       this.loginService.authCheck(token).subscribe(response => {
-        this.store.dispatch({
-          type: 'SET_USER',
-          payload: {
-            user: {
-              userId: response.id,
-              token: token,
-            }
-          }
-        });
+        localStorage.setItem('userId', response.id);
       }, error => {
         localStorage.removeItem('token');
       });

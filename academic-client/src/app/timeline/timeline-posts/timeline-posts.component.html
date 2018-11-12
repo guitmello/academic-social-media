@@ -1,4 +1,4 @@
-<app-new-post [storeId]="storeId"></app-new-post>
-<mat-card *ngFor="let post of posts">
+<app-new-post [userId]="userId"></app-new-post>
+<mat-card class="post-details" *ngFor="let post of posts">
         <app-post-details [post]="post"></app-post-details>   
 </mat-card>

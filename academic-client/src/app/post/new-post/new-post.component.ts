@@ -9,7 +9,7 @@ import { UserService } from '../../user/user.service';
 })
 export class NewPostComponent implements OnInit {
 
-  @Input() storeId;
+  @Input() userId;
   id: string;
   post: Post = {
     content: '',
@@ -27,9 +27,7 @@ export class NewPostComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    if (this.storeId) {
-      this.storeId.subscribe(userId => this.getUser(userId));
-    }
+    this.getUser(this.userId);
   }
 
   getUser(userId) {

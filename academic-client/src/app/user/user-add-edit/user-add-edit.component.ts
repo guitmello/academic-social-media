@@ -81,6 +81,8 @@ export class UserAddEditComponent implements OnInit {
       })
     }, {validators: [this.equalsTo], updateOn: 'change'});
 
+    this.changePhoto();
+
   }
 
   // Photo Upload
@@ -94,6 +96,7 @@ export class UserAddEditComponent implements OnInit {
         const fileReader = new FileReader();
         fileReader.onload = function(fileLoadEvent) {
           const base64value = <FileReader>event.target;
+          console.log(base64value);
           (<HTMLInputElement>document.getElementById('imgupload')).setAttribute(
             'base64-value', base64value.result.toString()
           );
@@ -121,6 +124,7 @@ export class UserAddEditComponent implements OnInit {
 
   createOrUpdate() {
     const fotobase64 = (<HTMLInputElement>document.getElementById('imgupload')).getAttribute('base64-value');
+    console.log(fotobase64);
 
     if (!fotobase64) {
       if (this.user.gender = 'Masculino') {
