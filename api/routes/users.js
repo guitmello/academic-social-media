@@ -8,6 +8,8 @@ const { validCreateUser, verifyCredentials } = require('../util/userFunctions')
 const validateHeader = require('../util/validateHeader')
 const imgFunctions = require('../util/imgFunctions')
 const Logs = require('../util/logs')
+const secret = require('../config')
+const jwt = require('jsonwebtoken')
 
 const bcryptAsPromise = promisify(bcrypt.hash)
 
@@ -21,17 +23,16 @@ module.exports = [
                 const result = await verifyCredentials(email, password)
 
                 if (result.isBoom) {
-                    return result.output.payload.message
+                    return Boom.badRequest(result.output.payload.message)
                 }
 
                 const token = await createToken(result)
-
                 const { _id, name, createdAt, area, photo, gender, birthDate, cpf } = result
 
                 return { name, _id, email, createdAt, area, photo, gender, birthDate, cpf, token }
             } catch (err) {
                 // return Boom.internal(error)
-                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                const item = Logs.obterDadoRequest(req)
                 Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }
@@ -46,6 +47,30 @@ module.exports = [
                     password: Joi.string().max(100).required()
                 }
             }
+        }
+    },
+    {
+        path: '/users/retrieveData',
+        method: 'GET',
+        handler: async (req, h) => {
+            try {
+                const { token } = req.query
+                if (!token)
+                    return Boom.internal('Token não informado')
+
+                const userDecoded = await jwt.verify(token, secret)
+                return userDecoded
+            } catch (err) {
+                // return Boom.internal(error)
+                const item = Logs.obterDadoRequest(req)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota utilizada para retornar e-mail e ID do usuário ao informar um token via querystring',
+
         }
     },
     {
