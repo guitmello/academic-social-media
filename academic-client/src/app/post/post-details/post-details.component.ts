@@ -17,7 +17,9 @@ export class PostDetailsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.post.user.photo = `${this.post.user.photo}`;
+    this.post.user.photo = this.post.user.photo.includes('localhost')
+      ? this.post.user.photo
+      : `http://localhost:8081${this.post.user.photo}`;
   }
 
 }

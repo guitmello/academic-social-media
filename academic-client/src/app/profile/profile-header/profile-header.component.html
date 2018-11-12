@@ -13,8 +13,8 @@
 
     <a *ngIf="projectId" [routerLink]="[ '/project/ce', projectId ]" mat-raised-button type="submit" color="primary"
       class="w-50 top-40">Atualizar Projeto</a>
-    <a *ngIf="!projectId" [routerLink]="[ '/project/ce' ]" mat-raised-button type="submit" color="primary" class="w-50 top-40">Adicionar
-      Projeto</a>
+    <!-- <a *ngIf="!projectId" [routerLink]="[ '/project/ce' ]" mat-raised-button type="submit" color="primary" class="w-50 top-40">Adicionar
+      Projeto</a> -->
 
   </div>
   <div class="mainInfos">
@@ -24,7 +24,7 @@
 
       <mat-progress-bar mode="determinate" [value]="project.loading" color="accent" style="background-color: #ccc"></mat-progress-bar>
 
-      <button mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Projeto</button>
+      <!-- <button mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Projeto</button> -->
     </div>
   </div>
   <div class="mainInfos">
