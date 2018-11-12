@@ -8,6 +8,8 @@ const { validCreateUser, verifyCredentials } = require('../util/userFunctions')
 const validateHeader = require('../util/validateHeader')
 const imgFunctions = require('../util/imgFunctions')
 const Logs = require('../util/logs')
+const secret = require('../config')
+const jwt = require('jsonwebtoken')
 
 const bcryptAsPromise = promisify(bcrypt.hash)
 
@@ -45,6 +47,30 @@ module.exports = [
                     password: Joi.string().max(100).required()
                 }
             }
+        }
+    },
+    {
+        path: '/users/retrieveData',
+        method: 'GET',
+        handler: async (req, h) => {
+            try {
+                const { token } = req.query
+                if (!token)
+                    return Boom.internal('Token não informado')
+
+                const userDecoded = await jwt.verify(token, secret)
+                return userDecoded
+            } catch (err) {
+                // return Boom.internal(error)
+                const item = Logs.obterDadoRequest(req)
+                Logs.logError(item.path, { ...item, err })
+                return Boom.internal()
+            }
+        },
+        config: {
+            tags: ['api'],
+            description: 'Rota utilizada para retornar e-mail e ID do usuário ao informar um token via querystring',
+
         }
     },
     {
