@@ -93,12 +93,12 @@ export class ProjectAddEditComponent implements OnInit {
     xhr.send();
   }
 
-  async createOrUpdate() {
+  createOrUpdate() {
     const fotobase64 = (<HTMLInputElement>document.getElementById('imgupload')).getAttribute('base64-value');
     console.log(fotobase64);
 
     if (!fotobase64) {
-      this.project.photo = await this.setPhoto('../../../assets/images/meu-projeto.png', (dataUrl) => dataUrl.toString);
+      this.setPhoto('../../../assets/images/meu-projeto.png', (dataUrl) => this.project.photo = dataUrl.toString);
     } else {
       this.project.photo = fotobase64;
     }
@@ -120,8 +120,11 @@ export class ProjectAddEditComponent implements OnInit {
   }
 
   updateProject(project: Project) {
-    this.projectService.updateProject(project).subscribe(response => {
-      console.log(response);
+    const id = this.project._id;
+    this.project._id = undefined;
+    this.project.__v = undefined;
+    this.projectService.updateProject(project, id).subscribe(response => {
+      this.router.navigateByUrl('/');
     }, error => {
       console.error(error);
     });

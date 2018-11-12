@@ -39,8 +39,8 @@ export class ProjectService {
     return this.http.post<Project>(`${this.API_URL}projects`, project);
   }
 
-  updateProject(project: Project): Observable<Project> {
-    return this.http.patch<Project>(`${this.API_URL}projects/${project._id}`, project);
+  updateProject(project: Project, id: string): Observable<Project> {
+    return this.http.patch<Project>(`${this.API_URL}projects/${id}`, project);
   }
 
   deleteProject(project: Project): Observable<Project> {

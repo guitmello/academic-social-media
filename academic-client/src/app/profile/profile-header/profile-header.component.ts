@@ -16,6 +16,7 @@ export class ProfileHeaderComponent implements OnInit {
   project: Project;
 
   projectPosts = [];
+  userPosts = [];
 
   constructor(
     private postService: PostService
@@ -25,12 +26,19 @@ export class ProfileHeaderComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.project = localStorage.getItem('project') !== 'undefined' && JSON.parse(localStorage.getItem('project'));
 
-    this.getUserPosts(this.project._id);
+    this.getProjectPosts(this.project._id);
+    this.getUserPosts(this.user._id);
   }
 
-  getUserPosts(projectId) {
+  getProjectPosts(projectId) {
     this.postService.getProjectPosts(projectId).subscribe(response => {
       this.projectPosts = response;
+    });
+  }
+
+  getUserPosts(userId) {
+    this.postService.getUserPosts(userId).subscribe(response => {
+      this.userPosts = response;
     });
   }
 }

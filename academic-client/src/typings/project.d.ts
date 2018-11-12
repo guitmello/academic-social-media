@@ -6,4 +6,5 @@ type Project = {
   description: string;
   loading?: number;
   likes?: number;
+  __v?: number;
 };

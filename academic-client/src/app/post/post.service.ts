@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/observable';
 import { environment } from '../../environments/environment';
 
@@ -14,11 +14,27 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   getUserPosts(userId): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.API_URL}posts/users/${userId}`);
+    let headers;
+
+    if (localStorage.getItem('token')) {
+      headers = new HttpHeaders({
+        'Authorization': localStorage.getItem('token')
+      });
+    }
+
+    return this.http.get<Post[]>(`${this.API_URL}posts/users/${userId}`, { headers });
   }
 
   getProjectPosts(projectId): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.API_URL}posts/projects/${projectId}`);
+    let headers;
+
+    if (localStorage.getItem('token')) {
+      headers = new HttpHeaders({
+        'Authorization': localStorage.getItem('token')
+      });
+    }
+
+    return this.http.get<Post[]>(`${this.API_URL}posts/projects/${projectId}`, { headers });
   }
 
   getPost(userId): Observable<Post> {

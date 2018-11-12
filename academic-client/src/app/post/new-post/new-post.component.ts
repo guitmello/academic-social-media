@@ -57,6 +57,9 @@ export class NewPostComponent implements OnInit {
   }
 
   publishPost(post: Post) {
+    if (!this.post.projectId) {
+      this.post.projectId = undefined;
+    }
     this.postService.createPost(this.post).subscribe(response => {
       this.postService.postPublished(response);
       this.postForm.reset();

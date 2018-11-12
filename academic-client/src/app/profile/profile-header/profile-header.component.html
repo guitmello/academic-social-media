@@ -30,17 +30,27 @@
   <div class="mainInfos">
     <mat-tab-group mat-stretch-tabs color="accent" backgroundColor="primary">
       <mat-tab label="Meu Projeto">
-        <div *ngIf='projectPosts.length; else noproject'>
+        <div *ngIf='projectPosts.length; else noposts'>
           <mat-card *ngFor='let post of projectPosts' class="post-details">
             <app-post-details [post]="post"></app-post-details>
           </mat-card>
         </div>
       </mat-tab>
-      <mat-tab label="Meus Posts"> Meus Posts </mat-tab>
+      <mat-tab label="Meus Posts">
+        <div *ngIf='userPosts.length; else noposts'>
+          <mat-card *ngFor='let post of userPosts' class="post-details">
+            <app-post-details [post]="post"></app-post-details>
+          </mat-card>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </mat-card>
 
 <ng-template #noproject>
   <h3 class="title-profHeader">Nenhum projeto criado</h3>
+</ng-template>
+
+<ng-template #noposts>
+  <h3 class="title-profHeader">Sem posts</h3>
 </ng-template>

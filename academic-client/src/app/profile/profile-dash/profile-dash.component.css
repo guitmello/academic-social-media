@@ -13,7 +13,7 @@
     cursor: pointer;
 }
 .cropedPhoto img{
-    width: 140%;
+    width: 100%;
 }
 .backgroundPicture{
     background: linear-gradient(#512DA8);
