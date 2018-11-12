@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { PostService } from '../post.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { PostService } from '../post.service';
   templateUrl: './post-details.component.html',
   styleUrls: ['./post-details.component.css']
 })
-export class PostDetailsComponent implements OnInit {
+export class PostDetailsComponent implements OnInit, OnChanges {
 
   @Input() post: Post;
 
@@ -14,6 +14,10 @@ export class PostDetailsComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ngOnChanges() {
+    this.post.user.photo = `http://localhost:8081${this.post.user.photo}`;
   }
 
 }
