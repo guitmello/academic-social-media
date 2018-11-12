@@ -2,7 +2,6 @@ import { Component, OnInit, Output } from '@angular/core';
 import { UserService } from '../../user/user.service';
 // import { Profile } from '';
 import { ProjectService } from '../../project/project.service';
-import { projectionDef } from '@angular/core/src/render3/instructions';
 import { Router } from '@angular/router';
 
 @Component({

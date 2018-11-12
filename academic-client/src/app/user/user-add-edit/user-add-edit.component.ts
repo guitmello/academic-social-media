@@ -42,6 +42,7 @@ export class UserAddEditComponent implements OnInit {
 
   isCreating = true;
 
+  numberPattern = /^[0-9]*$/;
   userForm: FormGroup;
 
   constructor(
@@ -66,13 +67,13 @@ export class UserAddEditComponent implements OnInit {
         validators: [Validators.required, Validators.email]
       }),
       cpf: new FormControl('', {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern(this.numberPattern)]
       }),
       birthDate: new FormControl('', {
         validators: [Validators.required]
       }),
       phone: new FormControl('', {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(11), Validators.pattern(this.numberPattern)]
       }),
       gender: new FormControl('', {
         validators: [Validators.required]

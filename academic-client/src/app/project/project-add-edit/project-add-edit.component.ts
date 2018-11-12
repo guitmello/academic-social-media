@@ -20,6 +20,7 @@ export class ProjectAddEditComponent implements OnInit {
     userId: localStorage.getItem('userId')
   };
 
+  numberPattern = /^[0-9]*$/;
   projectForm: FormGroup;
 
   constructor(
@@ -44,7 +45,13 @@ export class ProjectAddEditComponent implements OnInit {
         validators: [Validators.required]
       }),
       loading: new FormControl('', {
-        validators: [Validators.required]
+        validators: [
+          Validators.required,
+          Validators.maxLength(3),
+          Validators.min(0),
+          Validators.max(100),
+          Validators.pattern(this.numberPattern)
+        ]
       }),
     });
 

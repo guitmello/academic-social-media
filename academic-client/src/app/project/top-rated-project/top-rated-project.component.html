@@ -2,7 +2,7 @@
   <h3 class="text-center">Projetos Recomendados</h3>
   <div>
     <mat-list>
-      <mat-list-item [routerLink]="['/project', project._id]" *ngFor="let project of projects; last as last">
+      <mat-list-item [routerLink]="['/home/project', project._id]" *ngFor="let project of projects; last as last">
         <img matListAvatar [src]="project.photo" alt="Foto do projeto" />
         <h3 matLine>{{ project.name }}</h3>
         <p matLine>
