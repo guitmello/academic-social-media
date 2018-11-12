@@ -1,7 +1,12 @@
 .box-teste {
-    background: purple;
-    height: 400px;
-    width: 100%
+    background-image: url('../../../assets/images/reuniao.png');
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right;
+    display: flex;
+    align-items: center; 
 }
 
 mat-card{
@@ -10,5 +15,56 @@ mat-card{
 }
 
 .card__padding {
-    padding: 24px;
+    padding: 10px 60px;
 }
+
+.container{
+    padding: 0 !important;
+    height: 100%;
+}
+.content ,
+.container > .pure-g ,
+.pure-u-1.pure-u-md-3-5{
+    height: 100%;
+}
+.content{
+    padding: 0;
+    height: 100%;
+}
+.text-home{
+    color: #fff;
+    font-family: barlow;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 900;
+    margin: 0;
+    padding-left: 10%;
+}
+.text-home span{
+    color: #FFC107;
+}
+.mat-card{
+    display: flex;
+    align-items: center;
+}
+.rigth-side{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (max-width: 980px) {
+    .mat-card {
+      flex-direction: column;
+    }
+    .content ,
+    .container > .pure-g ,
+    .pure-u-1.pure-u-md-3-5{
+        height: auto;
+    }
+    .box-teste{
+        height: auto;
+        padding: 50px 0;
+    }
+  }
