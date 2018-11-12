@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, OnChanges } from '@angular/core';
 import { PostService } from '../../post/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthState } from '../../store/auth.reducer';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './timeline-posts.component.html',
   styleUrls: ['./timeline-posts.component.css']
 })
-export class TimelinePostsComponent implements OnInit {
+export class TimelinePostsComponent implements OnInit, OnChanges {
 
   @Output() storeId: Observable<any>;
   paramId: string;
@@ -25,7 +25,24 @@ export class TimelinePostsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe( params => {
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.paramId = params.id;
+    // });
+
+    // if (this.paramId && this.activatedRoute.snapshot.routeConfig.path === 'post') {
+    //   this.getPost(this.paramId);
+    //   this.getNewPost(this.posts);
+    // } else if (this.paramId) {
+    //   this.getUserPosts(this.paramId);
+    //   this.getNewPost(this.posts);
+    // } else {
+    //   this.getUserId();
+    //   this.getNewPost(this.posts);
+    // }
+  }
+
+  ngOnChanges() {
+    this.activatedRoute.params.subscribe(params => {
       this.paramId = params.id;
     });
 
@@ -39,7 +56,6 @@ export class TimelinePostsComponent implements OnInit {
       this.getUserId();
       this.getNewPost(this.posts);
     }
-
   }
 
   getPost(postId) {
@@ -57,7 +73,8 @@ export class TimelinePostsComponent implements OnInit {
   }
 
   getUserId() {
-    this.storeId = this.store.select('auth').pipe(map(response  => {
+    this.storeId = this.store.select('auth').pipe(map(response => {
+      console.log(response);
       return response.user.userId;
     }));
     this.storeId.subscribe(userId => this.getUserPosts(userId));
