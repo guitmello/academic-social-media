@@ -5,7 +5,7 @@
   "main": "server.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 15000 ./test/test.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
