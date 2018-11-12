@@ -4,6 +4,7 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth.reducer';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,12 @@ export class LoginComponent implements OnInit {
   hide = true;
 
   constructor
-  (
+    (
     private loginService: LoginService,
     private router: Router,
-    private store: Store<AuthState>
-  ) { }
+    private store: Store<AuthState>,
+    public snackBar: MatSnackBar
+    ) { }
 
   ngOnInit() {
     localStorage.removeItem('userId');
@@ -42,8 +44,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('userId', user._id);
         this.router.navigateByUrl('/');
       }, error => {
-        // SNACKBAR
+        const { message } = error.error;
+        this.snackBar.open(message, null, { duration: 2000 });
       });
-    }
+  }
 
 }

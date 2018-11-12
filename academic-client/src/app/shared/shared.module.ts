@@ -18,7 +18,8 @@ import {
   MatTabsModule,
   MatDatepickerModule,
   MatDividerModule,
-  MatListModule
+  MatListModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 import { RouterModule } from '@angular/router';
@@ -47,7 +48,8 @@ import { UserService } from '../user/user.service';
     MatOptionModule,
     MatNativeDateModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatSnackBarModule
   ],
   declarations: [],
   exports: [
@@ -67,19 +69,20 @@ import { UserService } from '../user/user.service';
     MatOptionModule,
     MatNativeDateModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatSnackBarModule
   ],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
-        ngModule: SharedModule,
-        providers: [
-            AuthGuard,
-            LoginService,
-            UserService,
-            {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-        ]
+      ngModule: SharedModule,
+      providers: [
+        AuthGuard,
+        LoginService,
+        UserService,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+      ]
     };
   }
 }
