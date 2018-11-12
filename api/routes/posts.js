@@ -242,10 +242,10 @@ module.exports = [
 
         method: 'GET',
         path: '/posts/users/{userId}',
-        handler: async (request, response) => {
+        handler: async (request, h) => {
             try {
                 const { offset, limit } = request.query
-                const result = await Posts.find({ userId: request.params.userId })
+                const result = await Posts.find({ 'user._id': request.params.userId })
                     .sort({ createdAt: 'desc' })
                     .skip(offset)
                     .limit(limit);
