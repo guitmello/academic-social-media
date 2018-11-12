@@ -38,6 +38,6 @@ export class PostService {
   }
 
   postPublished(post) {
-    return this.newPost.emit(this.post);
+    return this.newPost.emit(post);
   }
 }

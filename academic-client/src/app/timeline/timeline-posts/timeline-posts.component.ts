@@ -66,7 +66,7 @@ export class TimelinePostsComponent implements OnInit {
   getNewPost(posts) {
     return this.postService.newPost.subscribe(post => {
       posts.unshift(post);
-      console.log(posts);
+      console.log(post);
     });
   }
 

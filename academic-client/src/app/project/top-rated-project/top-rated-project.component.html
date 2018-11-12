@@ -3,7 +3,7 @@
   <div>
     <mat-list>
       <mat-list-item *ngFor="let project of projects; last as last">
-        <img matListAvatar src="..." alt="..." />
+        <img matListAvatar [src]="project.photo" alt="Foto do projeto" />
         <h3 matLine>{{ project.name }}</h3>
         <p matLine>
           <span> {{ project.likes }} Likes </span>

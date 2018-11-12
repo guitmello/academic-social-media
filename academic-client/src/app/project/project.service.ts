@@ -43,4 +43,8 @@ export class ProjectService {
     return this.http.delete<Project>(`${this.API_URL}projects/${project._id}`);
   }
 
+  getImage(img): Observable<any> {
+    return this.http.get(`http://localhost:8081${img}`);
+  }
+
 }

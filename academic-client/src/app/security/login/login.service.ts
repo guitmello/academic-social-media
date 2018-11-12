@@ -29,4 +29,8 @@ export class LoginService {
     localStorage.removeItem('token');
   }
 
+  authCheck(token: string): Observable<any> {
+    return this.http.get(`${this.API_URL}users/retrieveData?token=${token}`);
+  }
+
 }

@@ -16,7 +16,9 @@ export class TopRatedProject implements OnInit {
   ngOnInit() {
     this.projectService.getTopRatedProjects().subscribe(response => {
       this.projects = response;
-      console.log(this.projects);
+      this.projects.forEach(project => {
+        project.photo = `http://localhost:8081${project.photo}`;
+      });
     });
   }
 
