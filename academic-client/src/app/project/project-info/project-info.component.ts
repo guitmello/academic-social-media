@@ -9,6 +9,7 @@ import { ProjectService } from '../../project/project.service';
 export class ProjectInfoComponent implements OnInit {
 
   @Input() projectId;
+
   project: Project;
 
   constructor(
@@ -20,7 +21,9 @@ export class ProjectInfoComponent implements OnInit {
   }
 
   getProjectInfo(projectId) {
-    this.projectService.getProjectInfo(projectId).subscribe(response => this.project);
+    this.projectService.getProjectInfo(projectId).subscribe((response: any) => {
+      this.project = response;
+    });
   }
 
 }
