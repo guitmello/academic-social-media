@@ -2,11 +2,11 @@
   max-width: 100%;
   display: flex;
   align-items: center;
-  padding: 0 15%;
+  padding: 10px 15%;
 }
 .header__logo {
-  width: 99px;
-  height: 45px;
+  width: auto; 
+  height: 70px;
   display: flex;
   align-items: center;
 }
@@ -32,9 +32,13 @@
 
 @media screen and (min-width: 768px) {
   .header__logo {
-    width: 199px;
+    width: auto;
   }
 }
 .bt-logout{
   border: 1px solid #fff !important;
+  background: transparent;
+}
+.header{
+  justify-content: space-between; 
 }
