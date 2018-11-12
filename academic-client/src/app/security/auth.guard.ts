@@ -16,16 +16,14 @@ export class AuthGuard implements CanActivate {
         private router: Router
     ) {}
 
-    canActivate(next: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.store.select('user').pipe(
-            map(response => {
-                if (response == null) {
+    canActivate(next: ActivatedRouteSnapshot): any {
+        return this.store.select('auth').pipe(map(response  => {
+                if (response.user.token == null || !localStorage.getItem('token')) {
                     this.router.navigateByUrl('/login');
                     return false;
                 }
                 return true;
-            })
-        );
+        }));
     }
 
 }

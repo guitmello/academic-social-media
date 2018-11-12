@@ -25,6 +25,7 @@ import { RouterModule } from '@angular/router';
 import { AuthInterceptor } from '../security/auth.interceptor';
 import { AuthGuard } from '../security/auth.guard';
 import { LoginService } from '../security/login/login.service';
+import { UserService } from '../user/user.service';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ export class SharedModule {
         providers: [
             AuthGuard,
             LoginService,
+            UserService,
             {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
         ]
     };

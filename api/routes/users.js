@@ -107,7 +107,7 @@ module.exports = [
         handler: async (request, h) => {
             try {
                 const user = request.payload;
-                
+
                 user.password = await bcryptAsPromise(user.password, 10)
                 if (user.photo) {
                     const data = imgFunctions.base64ToPNG(user.photo) //formata o base64 
@@ -116,11 +116,13 @@ module.exports = [
                     user.photo = pathPhoto //bota o path no objeto de usuario para guardar no banco e o front end poder utilizar depois        
                 }
 
-                return await Users.create(user)
+                const resultUser = await Users.create(user)
+                resultUser.password = undefined
+                return resultUser
             } catch (err) {
                 // console.error('Erro em: ', error)
                 // return Boom.internal()
-                const item = Logs.obterDadoRequest(request, request.auth.credentials.username)
+                const item = Logs.obterDadoRequest(request)
                 Logs.logError(item.path, { ...item, err })
                 return Boom.internal()
             }

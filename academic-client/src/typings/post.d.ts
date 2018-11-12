@@ -1,14 +1,22 @@
 type Post = {
-  _id: string;
-  projectId: string;
-  //user {}
-  likes: number;
-  image: string;
-  content: string;
-  comments: [
-    {
-      content: string;
-      //user {}
-    }
-  ];
+  user: {
+    _id?: string;
+    name?: string;
+    photo?: string;
+  };
+  _id?: string;
+  projectId?: string;
+  content?: string;
+  createdAt?: string;
+  likes?: number;
+  photo?: string;
+  comments?: {
+    user: {
+      name: string;
+      _id: string;
+      photo: string;
+    };
+    createdAt: string;
+    content: string;
+  };
 };

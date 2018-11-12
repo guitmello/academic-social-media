@@ -16,15 +16,23 @@ export class PostService {
     return this.http.get<Post[]>(`${this.API_URL}posts/users/${userId}`);
   }
 
+  getProjectPosts(projectId): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.API_URL}posts/users/${projectId}`);
+  }
+
+  getPost(userId): Observable<Post> {
+    return this.http.get<Post>(`${this.API_URL}posts/${userId}`);
+  }
+
   createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(`${this.API_URL}/posts`, post);
+    return this.http.post<Post>(`${this.API_URL}posts`, post);
   }
 
   updatePost(post: Post): Observable<Post> {
-    return this.http.post<Post>(`${this.API_URL}/posts/${post._id}`, post);
+    return this.http.post<Post>(`${this.API_URL}posts/${post._id}`, post);
   }
 
   deletePost(post: Post): Observable<Post> {
-    return this.http.delete<Post>(`${this.API_URL}/posts/${post._id}`);
+    return this.http.delete<Post>(`${this.API_URL}posts/${post._id}`);
   }
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PostService } from '../post.service';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-new-post',
@@ -7,9 +9,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewPostComponent implements OnInit {
 
-  constructor() { }
+  @Input() storeId;
+  id: string;
+  post: Post = {
+    content: '',
+    user: {
+      _id: '',
+    name: '',
+    photo: ','
+    }
+  };
+  user: User;
+
+  constructor(
+    private postService: PostService,
+    private userService: UserService
+    ) { }
 
   ngOnInit() {
+    if (this.storeId) {
+      this.storeId.subscribe(userId => this.getUser(userId));
+    }
+  }
+
+  getUser(userId) {
+    this.userService.getUser(userId).subscribe(response => {
+      this.post.user._id = response._id;
+      this.post.user.name = response.name;
+      this.post.user.photo = response.photo;
+      console.log(this.post.user);
+    });
+  }
+
+  publish() {
+    this.publishPost(this.post);
+  }
+
+  publishPost(post: Post) {
+    this.postService.createPost(this.post).subscribe(response => {
+      this.post = response;
+    });
   }
 
 }
