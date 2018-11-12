@@ -5,6 +5,7 @@ module.exports = [
         method: 'GET',
         path: '/img/{filename}',
         config: {
+            auth: false,
             handler: (req, h) => {
                 try {
                     const { filename } = req.params
