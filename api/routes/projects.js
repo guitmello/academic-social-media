@@ -120,6 +120,8 @@ module.exports = [
             }
         },
         config: {
+            tags: ['api'],
+            description: 'Rota de busca e listagem do projeto pelo userId',
             validate: {
                 headers: validateHeader(),
                 params: {
