@@ -48,6 +48,7 @@ export class NewPostComponent implements OnInit {
   publishPost(post: Post) {
     this.postService.createPost(this.post).subscribe(response => {
       this.post = response;
+      this.postService.postPublished(response);
     });
   }
 

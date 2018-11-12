@@ -4,7 +4,6 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth.reducer';
-import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-login',

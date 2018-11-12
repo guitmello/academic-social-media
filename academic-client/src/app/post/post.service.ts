@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/observable';
 import { environment } from '../../environments/environment';
@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 export class PostService {
 
   post: Post;
+  newPost = new EventEmitter<Post>();
 
   API_URL = environment.apiUrl;
 
@@ -34,5 +35,9 @@ export class PostService {
 
   deletePost(post: Post): Observable<Post> {
     return this.http.delete<Post>(`${this.API_URL}posts/${post._id}`);
+  }
+
+  postPublished(post) {
+    return this.newPost.emit(this.post);
   }
 }
