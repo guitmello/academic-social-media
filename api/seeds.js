@@ -44,7 +44,7 @@ async function setupInc() {
             createdAt: new Date(),
             description: "O projeto número" + i + " é mais um teste gerado pelo loop!",
             userId: userInc._id,
-            loading: 0,
+            loading: Math.floor(Math.random() * 99) + 1,
             likes: Math.floor(Math.random() * 100000) + 1,
             photo: '/img/default-project.PNG'
         }
@@ -100,4 +100,5 @@ async function setupInc() {
 
 
     console.timeEnd('seeds')
+    console.log('Seeds finalizados')
 }
