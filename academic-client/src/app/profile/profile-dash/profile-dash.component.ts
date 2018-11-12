@@ -1,6 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { UserService } from '../../user/user.service';
-import { Profile } from 'selenium-webdriver/firefox';
+// import { Profile } from '';
 import { ProjectService } from '../../project/project.service';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class ProfileDashComponent implements OnInit {
 
   @Output() projectId;
-  profile: Profile;
+  // profile: Profile;
   user: User;
   project: Project;
 
@@ -29,11 +29,23 @@ export class ProfileDashComponent implements OnInit {
   }
 
   getUser(userId) {
-    this.userService.getUser(userId).subscribe(response => this.user = response);
+    this.userService.getUser(userId).subscribe(response => {
+      this.user = {
+        ...response,
+        photo: `http://localhost:8081${response.photo}`
+      };
+
+      localStorage.setItem('user', JSON.stringify(this.user));
+    });
   }
 
   getProject(userId) {
-    this.projectService.getProjectUser(userId).subscribe(response => this.projectId = response[0]._id);
+    this.projectService.getProjectUser(userId).subscribe(response => {
+      const project = response[0];
+      this.projectId = project ? project._id : null;
+    });
+
+    localStorage.setItem('project', JSON.stringify(this.project));
   }
 
   goToProfile() {

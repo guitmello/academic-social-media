@@ -2,28 +2,27 @@
   <div class="backgroundPicture">
     <a [routerLink]="[ '/user', 1 ]">
       <div class="cropedPhoto">
-        <img src="https://meapaixonei.com.br/wp-content/uploads/2017/10/sinais-que-comprovam-que-voce-tem-se-tornado-uma-pessoa-melhor-a-cada-dia.jpg">
+        <img [src]="user?.photo">
       </div>
     </a>
   </div>
   <div class="mainInfos">
-    <h3>Sabrina Spellman</h3>
-    <p>Arquitetura e Urbanismo</p>
+    <h3>{{user?.name}}</h3>
+    <p>{{user?.area}}</p>
 
     <button mat-raised-button type="submit" color="primary" class="w-50">Mais Informações</button>
     <button mat-raised-button type="submit" color="primary" class="w-50">Adicionar Projeto</button>
 
   </div>
   <div class="mainInfos">
+    <div *ngIf='project; else noproject'>
+      <h3 class="title-profHeader">Projeto: {{project?.name}}</h3>
+      <p class="project-description">{{project?.description}} </p>
 
-    <h3 class="title-profHeader">Projeto:</h3>
-    <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur at magna
-      eget venenatis. Praesent
-      dapibus velit vel dui lacinia pretium. Integer viverra aliquet lorem vel facilisis. Etiam vel viverra tortor. </p>
+      <mat-progress-bar mode="determinate" value="40" color="accent" style="background-color: #ccc"></mat-progress-bar>
 
-    <mat-progress-bar mode="determinate" value="40" color="accent" style="background-color: #ccc"></mat-progress-bar>
-
-    <button mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Projeto</button>
+      <button mat-raised-button type="submit" color="primary" class="w-50 top-40">Atualizar Projeto</button>
+    </div>
   </div>
   <div class="mainInfos">
     <mat-tab-group mat-stretch-tabs color="accent" backgroundColor="primary">
@@ -32,3 +31,7 @@
     </mat-tab-group>
   </div>
 </mat-card>
+
+<ng-template #noproject>
+  <h3 class="title-profHeader">Nenhum projeto criado</h3>
+</ng-template>
