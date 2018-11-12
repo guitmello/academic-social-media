@@ -27,6 +27,12 @@ export class LoginService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    this.router.navigateByUrl('/login');
+  }
+
+  authCheck(token: string): Observable<any> {
+    return this.http.get(`${this.API_URL}users/retrieveData?token=${token}`);
   }
 
 }

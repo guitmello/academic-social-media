@@ -51,6 +51,13 @@ export class UserAddEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      if (params.id) {
+        this.getUser(params.id);
+        this.isCreating = false;
+      }
+    });
+
     this.userForm = new FormGroup({
       name: new FormControl('', {
         validators: [Validators.required]
@@ -81,6 +88,8 @@ export class UserAddEditComponent implements OnInit {
       })
     }, {validators: [this.equalsTo], updateOn: 'change'});
 
+    this.changePhoto();
+
   }
 
   // Photo Upload
@@ -94,6 +103,7 @@ export class UserAddEditComponent implements OnInit {
         const fileReader = new FileReader();
         fileReader.onload = function(fileLoadEvent) {
           const base64value = <FileReader>event.target;
+          console.log(base64value);
           (<HTMLInputElement>document.getElementById('imgupload')).setAttribute(
             'base64-value', base64value.result.toString()
           );
@@ -119,14 +129,29 @@ export class UserAddEditComponent implements OnInit {
     }
   }
 
-  createOrUpdate() {
+  setPhoto(url, callback): any {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+  async createOrUpdate() {
     const fotobase64 = (<HTMLInputElement>document.getElementById('imgupload')).getAttribute('base64-value');
+    console.log(fotobase64);
 
     if (!fotobase64) {
       if (this.user.gender = 'Masculino') {
-        this.user.photo = btoa('../../assets/images/user-m-photo.png');
+        this.user.photo = await this.setPhoto('../../assets/images/user-m-photo.png', (dataUrl) => dataUrl.toString);
       } else {
-        this.user.photo = btoa('../../assets/images/user-f-photo.png');
+        this.user.photo = await this.setPhoto('../../assets/images/user-f-photo.png', (dataUrl) => dataUrl.toString);
       }
     } else {
       this.user.photo = fotobase64;
@@ -141,7 +166,7 @@ export class UserAddEditComponent implements OnInit {
 
   createUser(user: User) {
     this.userService.createUser(user).subscribe(response => {
-      console.log(response);
+      this.router.navigateByUrl('/login');
     }, error => {
       console.error(error);
     });
@@ -153,6 +178,10 @@ export class UserAddEditComponent implements OnInit {
     }, error => {
       console.error(error);
     });
+  }
+
+  getUser(userId) {
+    this.userService.getUser(userId).subscribe(response => this.user = response);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ProjectService } from '../../project/project.service';
 
 @Component({
@@ -8,11 +8,19 @@ import { ProjectService } from '../../project/project.service';
 })
 export class ProjectInfoComponent implements OnInit {
 
+  @Input() projectId;
+  project: Project;
+
   constructor(
     private projectService: ProjectService
   ) { }
 
   ngOnInit() {
+    this.getProjectInfo(this.projectId);
+  }
+
+  getProjectInfo(projectId) {
+    this.projectService.getProjectInfo(projectId).subscribe(response => this.project);
   }
 
 }

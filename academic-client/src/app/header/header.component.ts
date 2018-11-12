@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../security/login/login.service'
+import { LoginService } from '../security/login/login.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,7 @@ import { LoginService } from '../security/login/login.service'
 export class HeaderComponent implements OnInit {
   search = '';
 
-  constructor(private loginService: LoginService,) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
   }
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     console.log(this.search);
   }
 
-  logout(){
+  logout() {
     this.loginService.logout();
   }
 }

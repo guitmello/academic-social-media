@@ -18,7 +18,7 @@ export class PostService {
   }
 
   getProjectPosts(projectId): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.API_URL}posts/users/${projectId}`);
+    return this.http.get<Post[]>(`${this.API_URL}posts/projects/${projectId}`);
   }
 
   getPost(userId): Observable<Post> {
@@ -38,6 +38,6 @@ export class PostService {
   }
 
   postPublished(post) {
-    return this.newPost.emit(this.post);
+    return this.newPost.emit(post);
   }
 }

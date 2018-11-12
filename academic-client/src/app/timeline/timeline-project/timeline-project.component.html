@@ -1,18 +1,11 @@
 <div class="pure-u-1">
-  <mat-list>
-    <mat-list-item>
-      <img matListAvatar src="..." alt="..." />
-      <h3 matLine>{{ user.name }}</h3>
-      <p matLine>
-        <span> {{ user.area }} </span>
-      </p>
-    </mat-list-item>
-    <mat-divider [inset]="true"></mat-divider>
-  </mat-list>
+  
 </div>
 
+<app-new-post [projectId]="projectId"></app-new-post>
+
 <div class="pure-u-1">
-  <mat-card *ngFor="let post of posts">
+  <mat-card class="post-details" *ngFor="let post of posts">
     <app-post-details [post]="post"></app-post-details>
   </mat-card>
 </div>

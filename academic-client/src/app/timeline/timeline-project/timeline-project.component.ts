@@ -1,4 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
+import { PostService } from '../../post/post.service';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../../project/project.service';
 
 @Component({
   selector: 'app-timeline-project',
@@ -6,23 +9,48 @@ import { Component, OnInit, Output } from '@angular/core';
   styleUrls: ['./timeline-project.component.css']
 })
 export class TimelineProjectComponent implements OnInit {
-  // dado mockado
 
-  @Output() post = {
-    user: {
-      name:  'Avatar',
-      photo: 'https://observatoriodocinema.bol.uol.com.br/wp-content/uploads/2017/12/8-avatar.jpg'
-    },
-    content: {
-      date: new Date().toLocaleDateString(),
-      text: `"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-      "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."`
-    }
-  };
+  @Output() projectId: string;
+  project: Project;
+  public posts: Post[] = [];
+  @Output() post: Post;
 
-  constructor() { }
+  constructor(
+    private postService: PostService,
+    private projectService: ProjectService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      if (params.id) {
+        this.projectId = params.id;
+        this.getProject(params.id);
+      }
+    });
+  }
+
+  getProject(projectId) {
+    this.projectService.getProject(projectId).subscribe(response => {
+      this.project = response;
+      this.getProjectPosts(this.project._id);
+    });
+  }
+
+  getProjectPosts(projectId) {
+    this.postService.getProjectPosts(projectId).subscribe(response => {
+      this.posts = response;
+      this.posts.forEach(post => {
+        post.user.photo = `http://localhost:8081${post.user.photo}`;
+      });
+      this.getNewPost(this.posts);
+    });
+  }
+
+  getNewPost(posts) {
+    return this.postService.newPost.subscribe(post => {
+      posts.unshift(post);
+    });
   }
 
 }

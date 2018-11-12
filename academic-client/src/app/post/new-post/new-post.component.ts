@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PostService } from '../post.service';
 import { UserService } from '../../user/user.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-new-post',
@@ -9,14 +10,19 @@ import { UserService } from '../../user/user.service';
 })
 export class NewPostComponent implements OnInit {
 
-  @Input() storeId;
+  postForm: FormGroup;
+
+  @Input() userId;
+  @Input() projectId;
+
   id: string;
   post: Post = {
     content: '',
+    projectId: '',
     user: {
       _id: '',
     name: '',
-    photo: ','
+    photo: '',
     }
   };
   user: User;
@@ -27,8 +33,14 @@ export class NewPostComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    if (this.storeId) {
-      this.storeId.subscribe(userId => this.getUser(userId));
+    this.postForm = new FormGroup({
+      content: new FormControl('', { })
+    });
+    if (this.userId) {
+      this.getUser(this.userId);
+    } else {
+      this.getUser(localStorage.getItem('userId'));
+      this.post.projectId = this.projectId;
     }
   }
 
@@ -37,7 +49,6 @@ export class NewPostComponent implements OnInit {
       this.post.user._id = response._id;
       this.post.user.name = response.name;
       this.post.user.photo = response.photo;
-      console.log(this.post.user);
     });
   }
 
@@ -47,8 +58,8 @@ export class NewPostComponent implements OnInit {
 
   publishPost(post: Post) {
     this.postService.createPost(this.post).subscribe(response => {
-      this.post = response;
       this.postService.postPublished(response);
+      this.postForm.reset();
     });
   }
 

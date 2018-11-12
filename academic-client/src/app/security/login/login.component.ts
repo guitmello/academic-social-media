@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email]
@@ -36,18 +38,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe(user => {
-        this.store.dispatch({
-          type: 'SET_USER',
-          payload: {
-            user: {
-              name: user.name,
-              userId: user._id,
-              photo: user.photo,
-              token: user.token,
-            }
-          }
-        });
         localStorage.setItem('token', user.token);
+        localStorage.setItem('userId', user._id);
         this.router.navigateByUrl('/');
       }, error => {
         // SNACKBAR
