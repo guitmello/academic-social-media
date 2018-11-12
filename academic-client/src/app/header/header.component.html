@@ -1,16 +1,6 @@
-<header *ngIf='hide' class='header dark-primary-color text-primary-color'>
+<header *ngIf="showHeader" class='header dark-primary-color text-primary-color'>
   <img src='../../assets/images/meu-projeto.png' alt='Logo' class='header__logo' />
   <div class='header__search'>
-    <!--<input 
-      type='text' 
-      placeholder='Pesquisar pessoas ou projetos' 
-      name='search' 
-      class='text-primary-color'
-      [(ngModel)]='search'
-      (keyup.enter)='onSearch()'
-    />
-    <button (click)='onSearch()'> <i class='material-icons text-primary-color'> search </i> </button>-->
-
   </div>
   <button mat-raised-button class="bt-logout" (click)='logout()'>Logout</button>
 </header>

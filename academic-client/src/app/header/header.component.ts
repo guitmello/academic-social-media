@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { LoginService } from '../security/login/login.service';
 
 @Component({
@@ -9,12 +9,20 @@ import { LoginService } from '../security/login/login.service';
 export class HeaderComponent implements OnInit {
   search = '';
   hide = false;
+  showHeader: boolean;
 
   constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+    this.loginService.showHeader.subscribe(
+      mostrar => this.showHeader = mostrar,
+    );
     this.hide = localStorage.getItem('token') ? true : false;
   }
+
+  // ngOnChanges() {
+  //   this.hide = localStorage.getItem('token') ? true : false;
+  // }
 
   onSearch() {
     console.log(this.search);
@@ -22,5 +30,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
+    this.hide = localStorage.getItem('token') ? true : false;
   }
 }

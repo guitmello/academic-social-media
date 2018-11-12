@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class LoginService {
-
+  showHeader = new EventEmitter<boolean>();
   user: User;
   lastUrl: string;
 
@@ -22,10 +22,12 @@ export class LoginService {
   }
 
   login(email: string, password: string): Observable<User> {
+    this.showHeader.emit(true);
     return this.http.post<User>(`${this.API_URL}login`, { email: email, password: password });
   }
 
   logout() {
+    this.showHeader.emit(false);
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('user');
