@@ -4,26 +4,50 @@
 ## Objetivo - MVP
 O projeto é desenvolver uma rede social de acompanhamento e divulgação de TCCs/projetos. A ideia é que o usuário consiga inserir um resumo da ideia do seu projeto e possa inserir cada pesquisa, documento ou etapa desenvolvida no decorrer do seu projeto, de forma que usuário tenha controle do que já foi produzido e do que ainda precisa produzir.
 
-## Features secundárias
+# Pré requisitos
+```
+node v10.13.0
+mongodb v4.0.3
+git
+```
 
-- [ ] Proporcionar que outros usuários vejam o que está sendo desenvolvido nos trabalhos das pessoas e possam colaborar com o projeto.
+# Instalação
+1. Navegue para uma nova pasta, de preferência vazia;
+2. Abra o git bash e clone o repositório `git clone https://github.com/guitmello/academic-social-media`
+3. Navegue para a pasta api e digite `npm i`
+4. Navegue para a pasta academic-social-media e digite `npm i`
 
-- [ ] Proporcionar a união de dois projetos distintos para desenvolver algo mais completo do que seria feito individualmente.
+# Depuração local
 
-- [ ] Perfis profissionais se interessarem pela ideia desenvolvida e comprar o que foi desenvolvido.
+## API
+Após a instalação, para iniciar a api, navegue para a pasta da memsma e digite o comando `node .`
 
-- [ ] Perfis profissionais publicarem serviços que eles precisam para que alunos possam desenvolver trabalhos com fim comercial definido.
+## Client
+Após a instalação, para iniciar o client do front end, navegue para a pasta academic-client e digite o comando `ng serve --open`
 
-- [ ] Curtir ou enviar mensagem sobre o projeto
 
-- [ ] Recomendar tcc das pessoas
+# Ferramentas
 
-- [ ] Rankear tccs mais recomendados
+## Back end
+* NodeJS - Plataforma de desenvolvimento
+* MongoDB - Banco de dados
+* HapiJS - Endpoints da API
+* BCrypt - Criptografia de senha do usuário
+* Boom - Mensagens de erro e de retorno dos endpoints
+* Joi - Validação dos campos no payload de uma requisição
+* JSON Web Token - Token de usuário
+* Mongoose - Modelador de objetos para MongoDB
+* Vision - Renderizador de templates do servidor e requests
+* Winston - Plataforma para realizar logs
 
-- [ ] Poder fazer posts normais, sem necessidade de relação com o projeto desenvolvido.
+## Front end
+* Angular 
 
-- [ ] Seguir a pessoa para receber atualizações do projeto e publicações
+# Autores
 
-- [ ] Login com conta do google.    
-
-- [ ] Enviar mensagem
+* [Alyf Mendonça](https://github.com/alyfmendonca)
+* [Bruno Henrique](https://github.com/ferreirabh)
+* [Guilherme Mello](https://github.com/guitmello)
+* [Vinicius Loreto](https://github.com/viniloreto)
+* [Vitor Stipanich](https://github.com/vitorhead)
+* [William Silva](https://github.com/guebo)
